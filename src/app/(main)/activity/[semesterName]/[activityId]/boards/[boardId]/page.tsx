@@ -1,8 +1,10 @@
 'use client'
 
-import { ActivityPostListSection } from './_components/ActivityPostListSection'
-import { BoardHero } from './_components/BoardHero'
-import { CreatePostButton } from './_components/CreatePostButton'
+import {
+  ActivityPostListSection,
+  BoardHero,
+  CreatePostButton,
+} from './_components'
 
 type BoardPageParams = {
   params: {

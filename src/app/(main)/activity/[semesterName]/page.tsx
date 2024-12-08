@@ -2,22 +2,26 @@
 
 import { useRouter } from 'next/navigation'
 
-import { useCurrentSemester, useGetSemesters } from '@/service/data/semester'
+import {
+  ActivitySemesterSkeleton,
+  SemesterPagination,
+} from '@/components/feature'
+import { useGetSemesters } from '@/service/data/semester'
 
-import { RedirectActivity } from './[activityId]/_components/RedirectActivity'
-import { SemesterSection } from './[activityId]/_components/SemesterSection'
-import { SemesterSkeleton } from './_components/SemesterSkeleton'
+import { RedirectActivity } from './_components'
 
 type RedirectActivityParams = {
   params: { semesterName: string }
 }
 
-const RedirectSemester = ({ params }: RedirectActivityParams) => {
+const RedirectSemesterPage = ({ params }: RedirectActivityParams) => {
   const router = useRouter()
   const { semesters, status } = useGetSemesters()
-  const currentSemester = useCurrentSemester(params.semesterName)
+  const currentSemester = semesters.find(
+    (semester) => semester.semesterName === params.semesterName,
+  )
 
-  if (status === 'pending') return <SemesterSkeleton />
+  if (status === 'pending') return <ActivitySemesterSkeleton />
 
   if (params.semesterName === 'init') {
     const lastSemester = semesters[semesters.length - 1].semesterName
@@ -30,10 +34,13 @@ const RedirectSemester = ({ params }: RedirectActivityParams) => {
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <SemesterSection semesterName={params.semesterName} />
+      <SemesterPagination
+        semesterName={params.semesterName}
+        semesters={semesters}
+      />
       <RedirectActivity semester={currentSemester} />
     </div>
   )
 }
 
-export default RedirectSemester
+export default RedirectSemesterPage

@@ -1,0 +1,1 @@
+export { EventBoardHero } from './Hero'

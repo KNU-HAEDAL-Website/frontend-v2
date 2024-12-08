@@ -29,15 +29,3 @@ export const convertSemesterFormat = (semesters: Semester[]): Semester[] => {
     }
   })
 }
-
-export const useCurrentSemester = (semesterName: string) => {
-  const { semesters, status } = useGetSemesters()
-
-  if (status === 'pending') return undefined
-
-  const currentSemester = semesters.find(
-    (semester) => semester.semesterName === semesterName,
-  )
-
-  return currentSemester
-}

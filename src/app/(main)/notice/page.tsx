@@ -1,8 +1,10 @@
 import { Suspense } from 'react'
 
-import { CreateNoticePostButton } from './_components/CreateNoticePostButton'
-import { NoticeBoardHero } from './_components/NoticeBoardHero'
-import { NoticePostListSection } from './_components/NoticePostListSection'
+import {
+  CreateNoticePostButton,
+  NoticeBoardHero,
+  NoticePostListSection,
+} from './_components'
 
 const NoticeBoardPage = () => {
   return (

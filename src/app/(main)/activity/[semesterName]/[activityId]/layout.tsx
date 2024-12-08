@@ -1,9 +1,9 @@
 import { ReactNode } from 'react'
 
-import ErrorHandlingWrapper from '@/service/components/error-boundary/ErrorHandlingWrapper'
+import { ErrorHandlingWrapper } from '@/components/common'
+import { SemesterPagination } from '@/components/feature'
 
-import ActivityErrorFallback from './_components/ActivityErrorFallback'
-import { SemesterSection } from './_components/SemesterSection'
+import { ActivityErrorFallback } from './_components'
 
 type ActivityPageParams = {
   semesterName: string
@@ -20,7 +20,10 @@ const ActivityLayout = ({ params, children }: ActivityLayoutProps) => {
       fallbackComponent={ActivityErrorFallback}
       suspenseFallback={
         <div className="flex flex-col items-center gap-2">
-          <SemesterSection semesterName={params.semesterName} />
+          <SemesterPagination
+            semesterName={params.semesterName}
+            semesters={[]}
+          />
         </div>
       }
     >

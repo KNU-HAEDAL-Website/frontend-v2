@@ -1,0 +1,1 @@
+export { RedirectActivity } from './RedirectActivity'

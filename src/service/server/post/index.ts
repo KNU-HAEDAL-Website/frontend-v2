@@ -1,4 +1,5 @@
-import { formatDateDistanceFromToday } from '@/lib/date-distance'
+import formatDateDistanceFromToday from '@/utils/date-distance'
+
 import { AUTHORIZATION_API, BACKEND_API } from '@/service/config'
 import { PagaingRaw, Paging } from '@/service/types/paging'
 import { Post, PostSlider, PostView } from '@/types/post'

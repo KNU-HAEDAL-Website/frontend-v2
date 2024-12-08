@@ -1,7 +1,7 @@
+import { initInstance } from '@/lib/axios-instance'
 import { useAuthStore } from '@/store/auth'
 
 import authErrorInterceptor from './authErrorInterceptor'
-import { initInstance } from './instance'
 
 const BASE_URL = 'http://3.39.251.254:8080/api'
 

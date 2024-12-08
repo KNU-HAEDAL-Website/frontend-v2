@@ -1,12 +1,17 @@
 'use client'
 
-import { useCurrentSemester } from '@/service/data/semester'
+import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
-import { SemesterSkeleton } from '../_components/SemesterSkeleton'
-import { ActivitySection } from './_components/ActivitySection'
-import { BoardSection } from './_components/BoardSection'
-import { CreateBoardButton } from './_components/CreateBoardButton'
-import { SemesterSection } from './_components/SemesterSection'
+import {
+  ActivitySemesterSkeleton,
+  SemesterPagination,
+} from '@/components/feature'
+import { Button } from '@/components/ui'
+import { useGetSemesters } from '@/service/data/semester'
+import { useMyInfoStore } from '@/store/myInfo'
+
+import { ActivityBoardList, ActivityList } from './_components'
 
 type ActivityPageParams = {
   params: {
@@ -16,20 +21,40 @@ type ActivityPageParams = {
 }
 
 const ActivityPage = ({ params }: ActivityPageParams) => {
-  const semester = useCurrentSemester(params.semesterName)
+  const pathName = usePathname()
+  const router = useRouter()
 
-  if (!semester) return <SemesterSkeleton />
+  const { role } = useMyInfoStore((state) => state.getMyInfo())
+
+  const { semesters, status } = useGetSemesters()
+  const semester = semesters.find(
+    (semester) => semester.semesterName === params.semesterName,
+  )
+  if (!semester) return <ActivitySemesterSkeleton />
+
+  if (status === 'pending') return <ActivitySemesterSkeleton />
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <SemesterSection semesterName={params.semesterName} />
+      <SemesterPagination
+        semesterName={params.semesterName}
+        semesters={semesters}
+      />
       <div className="flex w-full flex-col items-center gap-6">
-        <ActivitySection
+        <ActivityList
           semesterId={semester.semesterId}
           activityId={Number(params.activityId)}
         />
-        <BoardSection activityId={Number(params.activityId)} />
-        <CreateBoardButton />
+        <ActivityBoardList activityId={Number(params.activityId)} />
+        <div className="mb-20 flex w-full justify-end">
+          <Button
+            className="max-w-fit"
+            onClick={() => router.push(`${pathName}/create-board`)}
+            disabled={!(role === '해구르르' || role === '팀장')}
+          >
+            게시판 생성하기
+          </Button>
+        </div>
       </div>
     </div>
   )

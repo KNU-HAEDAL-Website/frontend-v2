@@ -1,15 +1,14 @@
-import { AuthCard } from '~auth/_components/AuthCard'
-import { LinkButton } from '~auth/_components/LinkButton'
+import { AuthCardLayout, LinkButton } from '@/components/feature'
 
-import { LoginForm } from './_components/LoginForm'
+import { LoginForm } from './_components'
 
 const LoginPage = () => {
   return (
     <div className="flex w-full flex-col items-center gap-2">
-      <AuthCard title="Sign in to HAEDAL">
+      <AuthCardLayout title="Sign in to HAEDAL">
         <LoginForm />
-      </AuthCard>
-      <LinkButton backLink="/auth/signup" label="회원가입" />
+      </AuthCardLayout>
+      <LinkButton linkTo="/auth/signup" label="회원가입" />
     </div>
   )
 }

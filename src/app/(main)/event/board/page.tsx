@@ -1,15 +1,17 @@
 import { Suspense } from 'react'
 
-import { CreateEventPostButton } from './_components/CreateEventPostButton'
-import { EventBoardHero } from './_components/EventBoardHero'
-import { EventPostListSection } from './_components/EventPostListSection'
+import {
+  CreateEventPostButton,
+  EventBoardHero,
+  EventPostList,
+} from './_components'
 
 const EventBoardPage = () => {
   return (
     <div className="flex flex-col gap-10">
       <EventBoardHero />
       <Suspense>
-        <EventPostListSection />
+        <EventPostList />
       </Suspense>
       <div className="flex w-full justify-end">
         <CreateEventPostButton />

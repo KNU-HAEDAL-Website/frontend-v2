@@ -1,0 +1,1 @@
+export { EventPostHero } from './Hero'

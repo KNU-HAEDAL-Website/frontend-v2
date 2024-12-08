@@ -1,5 +1,10 @@
-import { NoticePostHero } from './_components/NotciePostHero'
-import { NoticePostSection } from './_components/NoticePostSection'
+'use client'
+
+import { Spinner } from '@/components/common'
+import { BoardNavigationButton, PostContent } from '@/components/feature'
+import { useGetPost } from '@/service/data/post'
+
+import { NoticePostDetail, NoticePostHero } from './_components'
 
 type NoticePostPageParams = {
   params: {
@@ -8,10 +13,16 @@ type NoticePostPageParams = {
 }
 
 const NoticePostPage = ({ params }: NoticePostPageParams) => {
+  const { data: post, status } = useGetPost({ postId: Number(params.postId) })
+
+  if (status === 'pending' || !post) return <Spinner />
+
   return (
     <div>
       <NoticePostHero />
-      <NoticePostSection postId={Number(params.postId)} />
+      <NoticePostDetail post={post} />
+      <PostContent content={post.postContent} />
+      <BoardNavigationButton />
     </div>
   )
 }

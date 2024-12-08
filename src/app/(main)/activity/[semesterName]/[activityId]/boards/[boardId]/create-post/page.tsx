@@ -2,12 +2,17 @@
 
 import { useEffect } from 'react'
 
-import { ACCESS_ERROR_MESSAGE } from '@/constant/errorMessage'
+import { useQuery } from '@tanstack/react-query'
+
+import {
+  ACCESS_ERROR_MESSAGE,
+  DATA_ERROR_MESSAGES,
+} from '@/constant/errorMessage'
+import { boardDetailQuery } from '@/service/data/boards'
 import { useMyInfoStore } from '@/store/myInfo'
 import { Role } from '@/types/user'
 
-import { CreateActivityPostForm } from './_components/CreateActivityPostForm'
-import { CreateActivityPostHero } from './_components/CreateActivityPostHero'
+import { CreateActivityPostForm, CreateActivityPostHero } from './_components'
 
 type CreatePostPageParams = {
   params: {
@@ -17,7 +22,13 @@ type CreatePostPageParams = {
 }
 
 const CreateActivityPostPage = ({ params }: CreatePostPageParams) => {
+  const { data: board } = useQuery(
+    boardDetailQuery(Number(params.activityId), Number(params.boardId)),
+  )
+
   const { role } = useMyInfoStore((state) => state.getMyInfo())
+
+  if (!board) throw new Error(DATA_ERROR_MESSAGES.BOARD_DETAIL_NOT_FOUND)
 
   useEffect(() => {
     if (!role?.includes(role as Role)) {
@@ -27,10 +38,7 @@ const CreateActivityPostPage = ({ params }: CreatePostPageParams) => {
 
   return (
     <div className="flex flex-col gap-6 py-10">
-      <CreateActivityPostHero
-        activityId={Number(params.activityId)}
-        boardId={Number(params.boardId)}
-      />
+      <CreateActivityPostHero boardName={board.boardName} />
       <CreateActivityPostForm boardId={Number(params.boardId)} />
     </div>
   )

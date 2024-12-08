@@ -5,8 +5,7 @@ import { useEffect } from 'react'
 import { ACCESS_ERROR_MESSAGE } from '@/constant/errorMessage'
 import { useMyInfoStore } from '@/store/myInfo'
 
-import { CreateEventPostForm } from './_components/CreateEventPostForm'
-import { CreateEventPostHero } from './_components/CreateEventPostHero'
+import { CreateEventPostForm, CreateEventPostHero } from './_components'
 
 const CreateEventPost = () => {
   const { role } = useMyInfoStore((state) => state.getMyInfo())

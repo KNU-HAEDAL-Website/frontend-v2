@@ -4,8 +4,7 @@ import { ReactNode } from 'react'
 
 import { useRouter } from 'next/navigation'
 
-import MainErrorFallback from '@/components/MainErrorFallback'
-import ErrorBoundary from '@/service/components/error-boundary'
+import { ErrorBoundary, MainErrorFallback } from '@/components/common'
 
 const CreateNoticePostLayout = ({ children }: { children: ReactNode }) => {
   const router = useRouter()

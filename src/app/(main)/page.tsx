@@ -1,6 +1,6 @@
 'use client'
 
-import { Section1 } from './_components/MainSection/Section1'
+import { Section1 } from './_components'
 
 export default function Main() {
   return (

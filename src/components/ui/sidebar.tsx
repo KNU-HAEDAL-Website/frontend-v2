@@ -19,7 +19,7 @@ type SidebarProps = {
   children: ReactNode
 }
 
-export default function Sidebar({ name, children }: SidebarProps) {
+export function Sidebar({ name, children }: SidebarProps) {
   const [expanded, setExpanded] = useState(true)
 
   return (
