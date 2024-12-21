@@ -1,7 +1,8 @@
-import { Dispatch, SetStateAction, useEffect } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 
-import { useAction } from 'next-safe-action/hooks'
-import { useRouter } from 'next/navigation'
+import { deleteSemester } from '@/servicetest/api/admin'
+import { semesterQueries } from '@/servicetest/api/semester'
+import { useMutation } from '@tanstack/react-query'
 
 import {
   Button,
@@ -11,12 +12,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  ToastAction,
   useToast,
 } from '@/components/ui'
 import { queryClient } from '@/lib/query-client'
-import { semesterQuery } from '@/service/data/semester'
-import { DeleteSemesterAction } from '@/service/server/semester/delete-semester'
 import { Semester } from '@/types/activity'
 
 type DeleteSemesterDialogProps = {
@@ -30,51 +28,23 @@ export const DeleteSemesterDialog = ({
   setOpen,
   semester,
 }: DeleteSemesterDialogProps) => {
-  const {
-    execute: deleteSemester,
-    result,
-    isExecuting,
-  } = useAction(DeleteSemesterAction)
+  const { mutate, isPending } = useMutation({
+    mutationFn: deleteSemester,
+    onSuccess: (data) => onSuccess(data.message),
+  })
+
   const { toast } = useToast()
-  const router = useRouter()
 
-  useEffect(() => {
-    if (result.data?.isSuccess) {
-      toast({
-        title: result.data.message,
-        duration: 2000,
-      })
+  const onSuccess = (message: string) => {
+    toast({
+      title: message,
+      duration: 2000,
+    })
 
-      const { queryKey } = semesterQuery()
+    queryClient.invalidateQueries({ queryKey: semesterQueries.all() })
 
-      queryClient.invalidateQueries({ queryKey })
-
-      setOpen(false)
-
-      return
-    }
-
-    if (result.data?.action === 'login') {
-      toast({
-        title: result.data?.message,
-        action: (
-          <ToastAction
-            onClick={() => router.push('/auth/login')}
-            altText="로그인하기"
-          >
-            로그인하기
-          </ToastAction>
-        ),
-      })
-      return
-    }
-
-    if (result.data?.message) {
-      toast({
-        title: result.data.message,
-      })
-    }
-  }, [result, toast, router, setOpen])
+    setOpen(false)
+  }
 
   if (!semester) return null
 
@@ -96,8 +66,8 @@ export const DeleteSemesterDialog = ({
           </Button>
           <Button
             variant="destructive"
-            onClick={() => deleteSemester({ semesterId: semester.semesterId })}
-            disabled={isExecuting}
+            onClick={() => mutate(semester.semesterId)}
+            disabled={isPending}
           >
             삭제하기
           </Button>
