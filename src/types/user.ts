@@ -4,11 +4,8 @@ export type User = {
   userName: string
 }
 
-export type Role = '해구르르' | '팀장' | '일반'
-
-export type ActiveUser = User & {
-  role: Role
-  regDate?: string
-}
-
-export type InActiveUser = ActiveUser
+export type Role =
+  | 'ROLE_WEB_MASTER'
+  | 'ROLE_ADMIN'
+  | 'ROLE_TEAM_LEADER'
+  | 'ROLE_MEMBER'

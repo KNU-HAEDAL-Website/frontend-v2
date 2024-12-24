@@ -1,1 +1,0 @@
-export { EventCarousel } from './Carousel'

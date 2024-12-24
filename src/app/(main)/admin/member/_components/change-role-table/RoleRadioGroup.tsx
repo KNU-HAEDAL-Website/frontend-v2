@@ -7,7 +7,7 @@ type RoleRadioGroupProps = {
   disabledRole: Role
 }
 
-const ROLES: Role[] = ['일반', '팀장', '해구르르']
+const ROLES: Role[] = ['ROLE_ADMIN', 'ROLE_TEAM_LEADER', 'ROLE_MEMBER']
 
 export const RoleRadioGroup = ({
   onChange,

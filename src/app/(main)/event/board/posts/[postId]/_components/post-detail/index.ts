@@ -1,1 +1,0 @@
-export { EventPostDetail } from './PostDetail'

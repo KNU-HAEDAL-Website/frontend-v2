@@ -14,10 +14,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui'
-import { Post } from '@/types/post'
+import { PostSummaryResponseDto } from '@/service/models'
 
 interface PostTableContentProps extends HTMLAttributes<HTMLTableElement> {
-  table: tanskTable<Post>
+  table: tanskTable<PostSummaryResponseDto>
 }
 
 export function PostTableContent({ table }: PostTableContentProps) {

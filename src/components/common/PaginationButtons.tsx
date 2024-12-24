@@ -11,7 +11,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui'
-import { Paging } from '@/service/types/paging'
+import { Paging } from '@/types/paging'
 
 type PaginationButtonsProps<T extends Paging> = {
   data: T

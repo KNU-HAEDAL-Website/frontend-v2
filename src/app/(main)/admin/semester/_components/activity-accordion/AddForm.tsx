@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { useAction } from 'next-safe-action/hooks'
-import { useRouter } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 
 import {
   Button,
@@ -12,81 +12,62 @@ import {
   FormItem,
   FormLabel,
   Input,
-  ToastAction,
   useToast,
 } from '@/components/ui'
 import { queryClient } from '@/lib/query-client'
-import { AddActivity } from '@/schema/admin'
-import { activitiesQuery } from '@/service/data/activity'
-import { AddActivityAction } from '@/service/server/activity/add-activity'
+import { AddActivity, AddActivitySchema } from '@/schema/admin'
+import { activityQueries, addActivityApi } from '@/service/api'
 
 type AddActivityFormProps = {
   semesterId: number
 }
 
 export const AddActivityForm = ({ semesterId }: AddActivityFormProps) => {
-  const {
-    execute: addActivity,
-    result,
-    isExecuting,
-  } = useAction(AddActivityAction)
+  const { mutate: addActivity, isPending } = useMutation({
+    mutationFn: addActivityApi,
+    onSuccess: (data) => onSuccess(data.message),
+  })
   const { toast } = useToast()
-  const router = useRouter()
 
   const form = useForm<AddActivity>({
+    resolver: zodResolver(AddActivitySchema),
     defaultValues: {
       activityName: '',
     },
   })
 
-  const onSubmit = (value: AddActivity) => {
-    addActivity({ semesterId, activityName: value.activityName })
+  const [message, setMessage] = useState('')
+
+  const onSubmit = form.handleSubmit(
+    (value: AddActivity) => {
+      addActivity({
+        semesterId,
+        data: { activityName: value.activityName },
+      })
+    },
+    (errors) => {
+      const errorMessage =
+        Object.values(errors).flatMap((error) => error.message)[0] || ''
+
+      setMessage(errorMessage)
+    },
+  )
+
+  const onSuccess = (message?: string) => {
+    toast({
+      title: message,
+      duration: 2000,
+    })
+
+    queryClient.invalidateQueries({ queryKey: activityQueries.all() })
+
+    form.setValue('activityName', '')
   }
-
-  useEffect(() => {
-    if (result.data?.isSuccess) {
-      toast({
-        title: result.data.message,
-        duration: 2000,
-      })
-
-      const { queryKey } = activitiesQuery(semesterId)
-      queryClient.invalidateQueries({ queryKey })
-
-      form.setValue('activityName', '')
-
-      return
-    }
-
-    if (result.data?.action === 'login') {
-      toast({
-        title: result.data?.message,
-        action: (
-          <ToastAction
-            onClick={() => router.push('/auth/login')}
-            altText="로그인하기"
-          >
-            로그인하기
-          </ToastAction>
-        ),
-      })
-      return
-    }
-
-    if (result.data?.message) {
-      toast({
-        title: result.data.message,
-      })
-    }
-  }, [result, toast, router, semesterId, form])
 
   return (
     <div>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex w-full items-end gap-4"
-        >
+        <form onSubmit={onSubmit} className="flex w-full items-end gap-4">
           <FormField
             control={form.control}
             name="activityName"
@@ -99,15 +80,13 @@ export const AddActivityForm = ({ semesterId }: AddActivityFormProps) => {
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={isExecuting}>
+          <Button type="submit" disabled={isPending}>
             추가하기
           </Button>
         </form>
       </Form>
-      {result.validationErrors && (
-        <div className="pl-1 pt-1 text-sm text-destructive">
-          {Object.values(result.validationErrors).flatMap((error) => error)[0]}
-        </div>
+      {message && (
+        <div className="pl-1 pt-1 text-sm text-destructive">{message}</div>
       )}
     </div>
   )

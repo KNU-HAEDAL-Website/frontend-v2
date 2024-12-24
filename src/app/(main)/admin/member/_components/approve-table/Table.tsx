@@ -1,16 +1,21 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
 import { ColumnDef } from '@tanstack/react-table'
 import { kstFormat } from '@toss/date'
 
 import { MemberTable, SkeletonTable } from '@/components/feature'
-import { useGetInActiveUsers } from '@/service/data/user'
-import { InActiveUser } from '@/types/user'
+import { AdminUserQuries } from '@/service/api'
+import { AdminUserResponseDto } from '@/service/models'
 
 import { ApproveMemberButton } from './Button'
 
 export const ApproveMemberTable = () => {
-  const { data: inActiveUsers, status, error } = useGetInActiveUsers()
+  const {
+    data: inActiveUsers,
+    status,
+    error,
+  } = useQuery(AdminUserQuries.inactive())
 
   if (status === 'pending') return <SkeletonTable />
 
@@ -18,7 +23,7 @@ export const ApproveMemberTable = () => {
 
   if (!inActiveUsers) return <div>회원 신청이 없습니다.</div>
 
-  const approveMemberColumn: ColumnDef<InActiveUser>[] = [
+  const approveMemberColumn: ColumnDef<AdminUserResponseDto>[] = [
     {
       header: '',
       id: 'id',

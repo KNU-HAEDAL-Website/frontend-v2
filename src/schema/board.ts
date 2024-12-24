@@ -3,7 +3,6 @@
 import { z } from 'zod'
 
 export const CreateBoardSchema = z.object({
-  activityId: z.number(),
   boardName: z
     .string()
     .min(1, { message: '게시판 제목을 입력해주세요.' })
@@ -11,7 +10,7 @@ export const CreateBoardSchema = z.object({
   boardIntro: z
     .string()
     .max(50, { message: '게시판 소개글은 50자 이내여야 합니다.' }),
-  imageFile: z
+  file: z
     .instanceof(File)
     .refine((f) => f.size < 5000000, {
       message: '이미지 파일 크기는 5MB 이하만 가능합니다.',

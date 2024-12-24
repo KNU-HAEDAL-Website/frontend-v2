@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { createJSONStorage, persist } from 'zustand/middleware'
+import { persist } from 'zustand/middleware'
 
 import { Role } from '@/types/user'
 
@@ -25,7 +25,6 @@ export const useMyInfoStore = create(
     }),
     {
       name: 'my-info',
-      storage: createJSONStorage(() => sessionStorage),
     },
   ),
 )

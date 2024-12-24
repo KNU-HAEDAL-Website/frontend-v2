@@ -13,7 +13,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
 
   useEffect(() => {
-    if (role !== '해구르르') {
+    if (!(role === 'ROLE_ADMIN')) {
       router.replace('/')
     }
   }, [role, router])

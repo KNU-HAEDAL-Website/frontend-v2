@@ -56,7 +56,7 @@ const mypageMockData = {
   userId: '3',
   studentId: '2099111222',
   name: '호반우',
-  role: '해구르르',
+  role: 'ROLE_ADMIN',
   socialInfo: {
     github: 'hobanwo',
     instagram: 'hobanwo',

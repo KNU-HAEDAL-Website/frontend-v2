@@ -11,7 +11,7 @@ const CreateNoticePost = () => {
   const { role } = useMyInfoStore((state) => state.getMyInfo())
 
   useEffect(() => {
-    if (role !== '해구르르') {
+    if (role !== 'ROLE_ADMIN') {
       throw new Error(ACCESS_ERROR_MESSAGE.UNAUTHORIZED_ERROR)
     }
   }, [role])

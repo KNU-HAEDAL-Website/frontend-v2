@@ -1,33 +1,92 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
-import { Button, Form } from '@/components/ui'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 
-import { useSignupForm } from '~auth/signup/_hooks/useSignupForm'
+import { Button, Form, useToast } from '@/components/ui'
+import { Signup, SignupSchema } from '@/schema/auth'
+import { signupApi } from '@/service/api'
 
-import { SignupCheckboxField, SignupInputField } from './field'
+import {
+  CheckStudentNumberField,
+  CheckUserIdField,
+  SignupCheckboxField,
+  SignupInputField,
+} from './field'
 import { SignupSuccessDialog } from './success-dialog'
 
 export const SignupForm = () => {
-  const { form, isExecuting, onSubmit, isSuccessSignup } = useSignupForm()
-  const [open, setOpen] = useState(false)
+  const { mutate: signup, isPending } = useMutation({ mutationFn: signupApi })
+  const [isValid, setIsValid] = useState({
+    userId: false,
+    studentNumber: false,
+  })
 
-  useEffect(() => {
-    if (isSuccessSignup && !open) {
-      setOpen(true)
+  const form = useForm<Signup>({
+    resolver: zodResolver(SignupSchema),
+    mode: 'onChange',
+    defaultValues: {
+      userId: '',
+      password: '',
+      email: '',
+      confirmPassword: '',
+      studentNumber: '',
+      userName: '',
+      checked: false,
+    },
+  })
+
+  const { toast } = useToast()
+
+  const onSubmit = () => {
+    try {
+      if (!isValid.userId) {
+        throw new Error('아이디 중복 확인을 진행해주세요.')
+      }
+
+      if (!isValid.studentNumber) {
+        throw new Error('학번 중복 확인을 진행해주세요.')
+      }
+
+      const { userId, password, email, studentNumber, userName } =
+        form.getValues()
+
+      signup({
+        data: {
+          userId,
+          password,
+          email,
+          studentNumber: Number(studentNumber),
+          userName,
+        },
+      })
+    } catch (error) {
+      if (error instanceof Error) {
+        if (!isValid.userId || !isValid.studentNumber)
+          toast({
+            title: error.message,
+          })
+      }
     }
-  }, [isSuccessSignup, open])
+  }
+
+  const [open, setOpen] = useState(false)
 
   return (
     <Form {...form}>
       <form onSubmit={(e) => e.preventDefault()} className="w-full space-y-4">
-        <SignupInputField
+        <CheckUserIdField
           name="userId"
           formLabel="아이디"
           placeholder="hobanu"
           formDescription="- ID는 영어와 숫자를 포함해 6~12자리로 입력해주세요."
-          doubleCheck="userId"
+          isValid={isValid.userId}
+          setIsValid={(valid: boolean) =>
+            setIsValid((prev) => ({ ...prev, userId: valid }))
+          }
         />
         <div className="space-y-1">
           <SignupInputField
@@ -45,12 +104,15 @@ export const SignupForm = () => {
           />
         </div>
         <div className="space-y-2">
-          <SignupInputField
+          <CheckStudentNumberField
             type="number"
             name="studentNumber"
             formLabel="학번"
             placeholder="2000123456"
-            doubleCheck="studentNumber"
+            isValid={isValid.studentNumber}
+            setIsValid={(valid: boolean) =>
+              setIsValid((prev) => ({ ...prev, studentNumber: valid }))
+            }
           />
           <SignupInputField
             name="userName"
@@ -65,7 +127,7 @@ export const SignupForm = () => {
         <Button
           type="submit"
           className="w-full"
-          disabled={isExecuting || !form.formState.isValid}
+          disabled={isPending || !form.formState.isValid}
           onClick={onSubmit}
         >
           회원가입

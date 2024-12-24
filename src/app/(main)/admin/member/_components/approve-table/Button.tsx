@@ -1,87 +1,48 @@
-import { useEffect } from 'react'
+import { useMutation } from '@tanstack/react-query'
 
-import { useAction } from 'next-safe-action/hooks'
-import { useRouter } from 'next/navigation'
-
-import { Button, ToastAction, useToast } from '@/components/ui'
+import { Button, useToast } from '@/components/ui'
 import { queryClient } from '@/lib/query-client'
-import {
-  approveMemberAction,
-  rejectMemberAction,
-} from '@/service/server/user/approve-member'
+import { AdminUserQuries, approveUserApi, rejectUserApi } from '@/service/api'
 
 type ApproveMemberButtonProps = {
   userId: string
 }
 
 export const ApproveMemberButton = ({ userId }: ApproveMemberButtonProps) => {
-  const {
-    execute: approveMember,
-    result: resultApprove,
-    isExecuting: isExecutingApprove,
-  } = useAction(approveMemberAction)
+  const { mutate: approveUser, isPending: isPendingApprove } = useMutation({
+    mutationFn: approveUserApi,
+    onSuccess: (data) => onSuccess(data.message),
+  })
 
-  const {
-    execute: rejectMember,
-    result: resultReject,
-    isExecuting: isExecutingReject,
-  } = useAction(rejectMemberAction)
+  const { mutate: rejectUser, isPending: isPendingReject } = useMutation({
+    mutationFn: rejectUserApi,
+    onSuccess: (data) => onSuccess(data.message),
+  })
 
   const { toast } = useToast()
-  const router = useRouter()
 
-  useEffect(() => {
-    const result = resultApprove.data ?? resultReject.data
+  const onSuccess = (message: string) => {
+    queryClient.invalidateQueries({ queryKey: AdminUserQuries.all() })
 
-    if (result?.isSuccess) {
-      queryClient.invalidateQueries({ queryKey: ['admin', 'users'] })
-
-      toast({
-        title: result.message,
-        duration: 1000,
-      })
-
-      return
-    }
-
-    if (result?.action === 'login') {
-      toast({
-        title: result.message,
-        duration: 2000,
-        action: (
-          <ToastAction
-            onClick={() => router.push('/auth/login')}
-            altText="로그인하기"
-          >
-            로그인하기
-          </ToastAction>
-        ),
-      })
-
-      return
-    }
-
-    if (result) {
-      toast({
-        title: result.message,
-        duration: 2000,
-      })
-    }
-  }, [resultApprove, resultReject, toast, router])
+    toast({
+      title: message,
+      duration: 2000,
+    })
+  }
 
   return (
     <div className="flex gap-3">
       <Button
-        onClick={() => approveMember({ userId })}
-        disabled={isExecutingApprove || isExecutingReject}
+        onClick={() => approveUser({ userId })}
+        disabled={isPendingApprove || isPendingReject}
         className="h-fit w-14 py-1.5"
       >
         수락
       </Button>
       <Button
         variant="secondary"
-        onClick={() => rejectMember({ userId })}
-        disabled={isExecutingApprove || isExecutingReject}
+        onClick={() => rejectUser({ userId })}
+        disabled={isPendingApprove || isPendingReject}
         className="h-fit w-14 py-1.5 hover:bg-primary/5"
       >
         거절

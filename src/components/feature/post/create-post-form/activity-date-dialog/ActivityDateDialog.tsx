@@ -21,12 +21,12 @@ import {
   FormMessage,
   Label,
 } from '@/components/ui'
-import { CreatePost } from '@/schema/post'
+import { CreateActivityPost } from '@/schema/post'
 
 import { DateDialogTriggerButton } from './trigger-button'
 
 export const ActivityDateFieldDialog = () => {
-  const { control, setValue } = useFormContext<CreatePost>()
+  const { control, setValue } = useFormContext<CreateActivityPost>()
 
   const [date, setDate] = useState<DateRange | undefined>({
     from: undefined,

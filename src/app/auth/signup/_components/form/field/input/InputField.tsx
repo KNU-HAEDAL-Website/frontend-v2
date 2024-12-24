@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useEffect, useState } from 'react'
+import { InputHTMLAttributes } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import {
@@ -10,17 +10,13 @@ import {
   FormMessage,
   Input,
 } from '@/components/ui'
-import { cn } from '@/lib/utils'
-import { CheckRespose } from '@/service/server/auth/signup'
 
-import { CheckStudentNumberButton, CheckUserIdButton } from './check-button'
-
-interface SignupInputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface SignupInputFieldProps
+  extends InputHTMLAttributes<HTMLInputElement> {
   name: string
   formLabel: string
   placeholder?: string
   formDescription?: string
-  doubleCheck?: 'userId' | 'studentNumber'
 }
 
 export const SignupInputField = ({
@@ -29,15 +25,8 @@ export const SignupInputField = ({
   placeholder,
   formDescription,
   type = 'text',
-  doubleCheck,
 }: SignupInputFieldProps) => {
   const form = useFormContext()
-  const fieldValue = form.watch(name)
-  const [checkResult, setCheckResult] = useState<CheckRespose>()
-
-  useEffect(() => {
-    setCheckResult({ success: false, message: '' })
-  }, [fieldValue])
 
   return (
     <FormField
@@ -54,32 +43,10 @@ export const SignupInputField = ({
                 onChange={field.onChange}
                 placeholder={placeholder}
               />
-              {doubleCheck === 'userId' && (
-                <CheckUserIdButton
-                  value={field.value}
-                  setCheckResult={setCheckResult}
-                />
-              )}
-              {doubleCheck === 'studentNumber' && (
-                <CheckStudentNumberButton
-                  value={field.value}
-                  setCheckResult={setCheckResult}
-                />
-              )}
             </div>
           </FormControl>
           <FormDescription className="pl-2">{formDescription}</FormDescription>
           <FormMessage className="pl-2" />
-          {checkResult && (
-            <p
-              className={cn(
-                checkResult.success ? 'text-blue-600' : 'text-red-600',
-                'text-sm',
-              )}
-            >
-              {checkResult.message}
-            </p>
-          )}
         </FormItem>
       )}
     />

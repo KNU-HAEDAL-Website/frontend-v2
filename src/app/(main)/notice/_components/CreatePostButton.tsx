@@ -15,7 +15,7 @@ export const CreateNoticePostButton = () => {
   const [disabled, setDisabled] = useState(true)
 
   useEffect(() => {
-    setDisabled(!(role === '해구르르'))
+    setDisabled(!(role === 'ROLE_ADMIN'))
   }, [role])
 
   if (disabled) return null
