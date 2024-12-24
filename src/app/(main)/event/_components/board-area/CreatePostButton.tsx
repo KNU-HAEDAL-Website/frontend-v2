@@ -7,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { Button } from '@/components/ui'
 import { useMyInfoStore } from '@/store/myInfo'
 
-export const CreateEventPostButton = () => {
+export const CreatePostButton = () => {
   const pathName = usePathname()
   const router = useRouter()
 
@@ -22,7 +22,7 @@ export const CreateEventPostButton = () => {
 
   return (
     <Button
-      onClick={() => router.push(`${pathName}/create-post`)}
+      onClick={() => router.push(`${pathName}/board/create-post`)}
       disabled={disabled}
     >
       게시글 작성하기
