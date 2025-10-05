@@ -77,9 +77,6 @@ export const RecruitTrack = () => {
               </div>
             )}
           </Card>
-          <div className="py-2 text-center text-base font-normal text-zinc-400 sm:text-lg">
-            ※ 소모임은 학기 초 개설 예정입니다.
-          </div>
         </div>
       </div>
     </div>

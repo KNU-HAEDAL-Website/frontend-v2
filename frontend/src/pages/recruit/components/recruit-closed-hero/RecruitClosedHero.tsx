@@ -14,8 +14,8 @@ export const RecruitClosedHero = () => {
           </div>
         </div>
         <div className="flex flex-col gap-1.5 text-sm sm:text-base">
-          <div>2025년 상반기 모집이 완료되었습니다</div>
-          <div>다음 모집은 2025년 8월 30일에 예정되어 있습니다</div>
+          <div>2025년 하반기 모집이 완료되었습니다</div>
+          <div>다음 모집은 2026년 상반기에 예정되어 있습니다</div>
         </div>
         <div className="absolute -bottom-10 right-0 z-30 sm:-bottom-12 md:-bottom-16 lg:-bottom-20">
           <img
