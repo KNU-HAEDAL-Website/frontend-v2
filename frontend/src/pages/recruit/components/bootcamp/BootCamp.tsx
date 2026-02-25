@@ -70,13 +70,13 @@ export const RecruitBootCamp = () => {
           />
         </motion.div>
 
-        <div className="flex w-full flex-col items-center gap-10 xl:flex-row xl:items-start xl:justify-center">
+        <div className="flex w-full flex-col items-center gap-10 2xl:flex-row 2xl:items-start 2xl:justify-center">
           <motion.div
             initial={{ opacity: 0, x: -80 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="flex w-full shrink-0 justify-center xl:w-auto"
+            className="flex w-full shrink-0 justify-center 2xl:w-auto"
           >
             <BootcampAccordionCard />
           </motion.div>
@@ -86,7 +86,7 @@ export const RecruitBootCamp = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="flex w-full shrink-0 justify-center py-10 xl:w-auto xl:min-w-[700px] xl:max-w-[700px]"
+            className="flex w-full max-w-4xl justify-center py-10 2xl:w-auto 2xl:flex-1"
           >
             <div className="w-full flex-1 rounded-2xl border border-orange-500/20 bg-black/50 p-4 shadow-[0_0_50px_rgba(234,88,12,0.2)] backdrop-blur-xl">
               <BootcampScheduleTable />

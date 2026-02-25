@@ -11,7 +11,7 @@ export const BootcampScheduleTable = () => {
               {DAYS.map((day) => (
                 <th
                   key={day}
-                  className="border-b border-r border-white/10 px-4 py-3 font-medium tracking-widest text-blue-200 last:border-r-0"
+                  className="border-b border-r border-white/10 px-1 py-2 text-xs font-medium tracking-wide text-blue-200 last:border-r-0 sm:px-4 sm:py-3 sm:text-base sm:tracking-widest"
                 >
                   {day}
                 </th>
@@ -27,7 +27,7 @@ export const BootcampScheduleTable = () => {
                   index === 0 ? 'bg-blue-900/10' : 'bg-purple-900/10',
                 )}
               >
-                <td className="whitespace-nowrap border-r border-white/10 px-3 py-4 text-sm font-semibold tracking-wider sm:text-base">
+                <td className="whitespace-nowrap border-r border-white/10 px-1 py-3 text-xs font-semibold tracking-tight sm:px-3 sm:py-4 sm:text-base sm:tracking-wider">
                   <span
                     className={
                       index === 0 ? 'text-blue-300' : 'text-purple-300'
@@ -40,7 +40,7 @@ export const BootcampScheduleTable = () => {
                   <td
                     key={day}
                     className={cn(
-                      'whitespace-nowrap border-r border-white/10 align-top text-sm font-light sm:text-base',
+                      'border-r border-white/10 align-top text-[10px] font-light leading-tight tracking-tighter sm:whitespace-nowrap sm:text-sm sm:tracking-normal md:text-base',
                       dayIndex === DAYS.length - 1 && 'border-r-0',
                     )}
                   >
@@ -48,7 +48,7 @@ export const BootcampScheduleTable = () => {
                       <div
                         key={idx}
                         className={cn(
-                          'px-2 py-3',
+                          'flex min-h-[40px] items-center justify-center break-keep px-1 py-2 text-center sm:min-h-[50px] sm:px-2 sm:py-3',
                           idx < group.schedule[day].length - 1 &&
                             'border-b border-white/5',
                           subject !== '' && 'font-medium text-slate-100',

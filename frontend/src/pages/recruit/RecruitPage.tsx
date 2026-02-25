@@ -76,52 +76,10 @@ export default function RecruitPage() {
   // 0.75 ~ 0.85 = Track Planet (Middle)
   // 0.95 ~ 1.0  = Moon (Bottom)
 
-  // Floating trajectory to "land" precisely on each section's surface
-  const astroY = useTransform(
-    scrollYProgress,
-    [0, 0.1, 0.25, 0.35, 0.5, 0.6, 0.75, 0.85, 0.95, 1],
-    // BootCamp (0.5-0.6): moved to 18vh
-    // Moon (0.95-1): Positioned in the exact spot next to the text as drawn by the user
-    [
-      '12vh',
-      '15vh',
-      '52vh',
-      '52vh',
-      '18vh',
-      '18vh',
-      '22vh',
-      '22vh',
-      '35vh',
-      '-20vh',
-    ],
-  )
-  const astroX = useTransform(
-    scrollYProgress,
-    [0, 0.1, 0.25, 0.35, 0.5, 0.6, 0.75, 0.85, 0.95, 1],
-    // Fixed X position further to the right side of the screen
-    [
-      '90vw',
-      '90vw',
-      '90vw',
-      '90vw',
-      '90vw',
-      '90vw',
-      '90vw',
-      '90vw',
-      '90vw',
-      '90vw',
-    ],
-  )
-  const astroRotate = useTransform(
-    scrollYProgress,
-    [0, 0.1, 0.25, 0.35, 0.5, 0.6, 0.75, 0.85, 0.95, 1],
-    [0, -5, -15, -5, 15, 5, -15, -5, 5, 0],
-  )
-  const astroScale = useTransform(
-    scrollYProgress,
-    [0, 0.1, 0.25, 0.35, 0.5, 0.6, 0.75, 0.85, 0.95, 1],
-    [0.9, 0.8, 1.0, 1.1, 1.0, 1.1, 1.0, 1.1, 0.9, 0.8],
-  )
+  // Floating trajectory to "land" smoothly from top to bottom
+  const astroY = useTransform(scrollYProgress, [0, 1], ['10vh', '85vh'])
+  const astroRotate = useTransform(scrollYProgress, [0, 0.5, 1], [-10, 10, -10])
+  const astroScale = 1
   // Z-index stays high so Haedal is always ON TOP of the planets
   const astroZ = useTransform(scrollYProgress, [0, 1], [50, 50])
 
@@ -176,17 +134,16 @@ export default function RecruitPage() {
     <motion.main
       ref={ref}
       style={{ backgroundColor: bg }}
-      className="relative flex min-h-screen w-full flex-col overflow-x-hidden font-namum-square text-white"
+      className="relative flex min-h-screen w-full flex-col overflow-x-hidden break-keep font-namum-square text-white"
     >
       <Header />
       <StarField />
 
       {/* Haedal Astronaut (scroll-synced) */}
       <motion.div
-        className="pointer-events-none fixed"
+        className="pointer-events-none fixed right-4 sm:right-6 md:right-10"
         style={{
           top: astroY,
-          left: astroX,
           rotate: astroRotate,
           scale: astroScale,
           zIndex: astroZ,

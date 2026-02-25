@@ -9,7 +9,7 @@ import {
 export const BootcampAccordionCard = () => {
   return (
     <div className="relative flex w-full flex-col items-center gap-5 px-5 py-10 sm:flex-row sm:items-start sm:justify-center md:gap-10">
-      <Card className="relative flex min-h-[460px] w-80 flex-col overflow-hidden border border-white/10 bg-black/40 px-4 py-8 text-white shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-blue-500/50 hover:shadow-[0_0_40px_rgba(59,130,246,0.2)] sm:w-96">
+      <Card className="relative flex min-h-[460px] w-full max-w-[320px] flex-col overflow-hidden border border-white/10 bg-black/40 px-4 py-8 text-white shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-blue-500/50 hover:shadow-[0_0_40px_rgba(59,130,246,0.2)] sm:max-w-sm">
         <div className="absolute -left-10 -top-10 h-32 w-32 rounded-full bg-blue-500/20 blur-3xl" />
         <div className="relative z-10 text-2xl font-bold text-blue-300 drop-shadow-md lg:text-3xl">
           기초반
@@ -62,7 +62,7 @@ export const BootcampAccordionCard = () => {
         </Accordion>
       </Card>
 
-      <Card className="relative flex min-h-[460px] w-80 flex-col overflow-hidden border border-white/10 bg-black/40 px-4 py-8 text-white shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_40px_rgba(168,85,247,0.2)] sm:w-96">
+      <Card className="relative flex min-h-[460px] w-full max-w-[320px] flex-col overflow-hidden border border-white/10 bg-black/40 px-4 py-8 text-white shadow-2xl backdrop-blur-md transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_40px_rgba(168,85,247,0.2)] sm:max-w-sm">
         <div className="absolute -bottom-10 -right-10 h-32 w-32 rounded-full bg-purple-500/20 blur-3xl" />
         <div className="relative z-10 text-2xl font-bold text-purple-300 drop-shadow-md lg:text-3xl">
           심화반
