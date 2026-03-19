@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { getDateDistance } from '@toss/date'
 
 export const CountdownTimer = () => {
-  const endDate = useMemo(() => new Date('2026-03-04T23:59:59+09:00'), [])
+  const endDate = useMemo(() => new Date('2026-03-13T23:59:59+09:00'), [])
   const [distance, setDistance] = useState(getDateDistance(new Date(), endDate))
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export const CountdownTimer = () => {
       >
         {/* Label */}
         <div className="rounded-full border border-slate-400/30 bg-slate-800/60 px-6 py-2 text-sm font-bold tracking-wider text-slate-300 backdrop-blur-sm sm:text-base">
-          🌙 서류 마감까지
+          🌙 모집이 마감되었습니다
         </div>
 
         {/* Timer digits */}

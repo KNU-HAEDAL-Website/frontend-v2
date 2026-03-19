@@ -5,7 +5,7 @@ import { useSuspenseQueries } from '@tanstack/react-query'
 import { IntersectionObserverLoader } from '@/components/common'
 import { MemberCard } from '@/components/feature'
 import { Label, PaginationNext, PaginationPrevious } from '@/components/ui'
-import { ADMIN_2025 } from '@/data'
+import { ADMIN_2025, ADMIN_2026 } from '@/data'
 import {
   getJoinSemestersApi,
   profileQueries,
@@ -23,15 +23,15 @@ export default function MemberPage() {
     })
   }, [])
 
+  const currentYear = joinSemesterData[semesterIndex]?.split('_')[1] || '2026'
+  const currentAdmins = currentYear === '2025' ? ADMIN_2025 : ADMIN_2026
+
   /**
    * 특정 연도 운영진 정보
    *
-   * @note adminQueries는 매년 수정해야 합니다.
-   *  - 해당 연도 운영진은 `data/admins/{year}.ts` 에 정의합니다.
-   *  - import 시 `ADMIN_2025` → `ADMIN_2026` 등으로 교체합니다.
-   * @todo 새 학기 시작 시 연도 교체
+   * @note 해당 연도 운영진은 `data/admins/{year}.ts` 에 정의합니다.
    */
-  const adminQueries = ADMIN_2025.map((admin) =>
+  const adminQueries = currentAdmins.map((admin) =>
     profileQueries.profile({ userId: admin.userId }),
   )
 
@@ -39,7 +39,7 @@ export default function MemberPage() {
     queries: adminQueries,
   }).map((result, index) => ({
     ...result.data,
-    position: ADMIN_2025[index].position,
+    position: currentAdmins[index].position,
   }))
 
   const {
