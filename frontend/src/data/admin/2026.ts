@@ -13,7 +13,7 @@ export const ADMIN_2026: Admin<Position2026>[] = [
   },
   {
     position: '부회장',
-    userId: 'juyoung0620',
+    userId: 'antilog01',
   },
   {
     position: '총무',
