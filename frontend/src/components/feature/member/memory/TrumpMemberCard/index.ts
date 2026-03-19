@@ -1,0 +1,1 @@
+export { TrumpMemberCard } from './TrumpMemberCard'

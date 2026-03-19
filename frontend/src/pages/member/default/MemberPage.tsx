@@ -1,29 +1,35 @@
-import { useEffect, useState, useMemo, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+
 import { useSuspenseQueries } from '@tanstack/react-query'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import { IntersectionObserverLoader } from '@/components/common'
+import { TrumpMemberCard } from '@/components/feature/member/memory/TrumpMemberCard'
 import { Label, PaginationNext, PaginationPrevious } from '@/components/ui'
 import { ADMIN_2025, ADMIN_2026 } from '@/data'
+import { useMemoryGame } from './hooks/useMemoryGame'
 import {
   getJoinSemestersApi,
   profileQueries,
   useProfileSuspensePaging,
 } from '@/service/api'
 
-import { TrumpMemberCard } from '@/components/feature/member/memory/TrumpMemberCard'
-import { useMemoryGame } from '@/hooks/useMemoryGame'
-
 const RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
 const SUITS: ('♠' | '♥' | '♦' | '♣')[] = ['♠', '♥', '♦', '♣']
 
-type PageMode = 'browse' | 'transition-to-game' | 'game' | 'transition-to-browse'
+type PageMode =
+  | 'browse'
+  | 'transition-to-game'
+  | 'game'
+  | 'transition-to-browse'
 
 export default function MemberPage() {
   const [joinSemesterData, setJoinSemesterData] = useState<string[]>([])
   const [semesterIndex, setSemesterIndex] = useState<number>(0)
   const [mode, setMode] = useState<PageMode>('browse')
-  const [flippedAdminIndices, setFlippedAdminIndices] = useState<Set<number>>(new Set())
+  const [flippedAdminIndices, setFlippedAdminIndices] = useState<Set<number>>(
+    new Set(),
+  )
 
   useEffect(() => {
     getJoinSemestersApi().then((data) => {
@@ -60,9 +66,8 @@ export default function MemberPage() {
     [memberData],
   )
 
-  // Combine all profiles for the game pool
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const adminIds = adminProfiles.map(p => p.userId).join(',')
+  const adminIds = adminProfiles.map((p) => p.userId).join(',')
   const allProfiles = useMemo(() => {
     const admins = adminProfiles.map((p) => ({
       userId: p.userId,
@@ -85,10 +90,8 @@ export default function MemberPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [adminIds, memberProfiles])
 
-  // Memory game hook
   const { state: gameState, startGame, flipCard, endGame } = useMemoryGame()
 
-  // Handlers
   const handleLeftSemester = () => {
     if (semesterIndex > 0) setSemesterIndex(semesterIndex - 1)
   }
@@ -104,7 +107,6 @@ export default function MemberPage() {
     return `${year}-${semester} 멤버`
   }
 
-  // Flip an admin card
   const handleFlipAdmin = useCallback((index: number) => {
     setFlippedAdminIndices((prev) => {
       const next = new Set(prev)
@@ -117,7 +119,6 @@ export default function MemberPage() {
     })
   }, [])
 
-  // Auto-start game when all admin cards are flipped
   useEffect(() => {
     if (
       mode === 'browse' &&
@@ -128,14 +129,20 @@ export default function MemberPage() {
       const timer = setTimeout(() => {
         setMode('transition-to-game')
         setTimeout(() => {
-          startGame(allProfiles, 'easy')
+          startGame(allProfiles)
           setFlippedAdminIndices(new Set())
           setMode('game')
         }, 800)
       }, 500)
       return () => clearTimeout(timer)
     }
-  }, [mode, flippedAdminIndices.size, adminProfiles.length, allProfiles, startGame])
+  }, [
+    mode,
+    flippedAdminIndices.size,
+    adminProfiles.length,
+    allProfiles,
+    startGame,
+  ])
 
   const handleEndGame = useCallback(() => {
     setMode('transition-to-browse')
@@ -145,7 +152,6 @@ export default function MemberPage() {
     }, 600)
   }, [endGame])
 
-  // Auto-return when all pairs matched
   useEffect(() => {
     if (gameState.phase === 'completed') {
       const timer = setTimeout(() => {
@@ -155,21 +161,15 @@ export default function MemberPage() {
     }
   }, [gameState.phase, handleEndGame])
 
-  // Game grid columns based on card count
   const gameGridCols = useMemo(() => {
     const count = gameState.cards.length
-    if (count <= 12) return 4
     if (count <= 16) return 4
     return 5
   }, [gameState.cards.length])
 
-  // ═══════════════════════════════════════════════════
-  //  RENDER
-  // ═══════════════════════════════════════════════════
   return (
     <main className="flex h-full w-full flex-col items-center pb-20">
       <AnimatePresence mode="wait">
-        {/* ═══ BROWSE MODE ═══ */}
         {(mode === 'browse' || mode === 'transition-to-game') && (
           <motion.div
             key="browse"
@@ -183,12 +183,10 @@ export default function MemberPage() {
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.5 }}
           >
-            {/* Header */}
             <div className="mb-6 w-full max-w-[920px]">
               <div className="text-xl font-semibold">해구르르</div>
             </div>
 
-            {/* Admin cards */}
             <div className="grid w-full max-w-[380px] grid-cols-2 place-items-center gap-5 sm:max-w-[580px] sm:grid-cols-3 md:max-w-[760px] lg:max-w-[920px] lg:grid-cols-4">
               {adminProfiles.map((user, i) => (
                 <div key={`admin-${i}-${user.userId}`}>
@@ -211,7 +209,6 @@ export default function MemberPage() {
               ))}
             </div>
 
-            {/* Semester switcher */}
             <div className="flex items-center gap-2 pt-10 text-xl font-semibold">
               <PaginationPrevious
                 to="#"
@@ -231,7 +228,6 @@ export default function MemberPage() {
               해달과 {memberProfiles.length}명의 부원들이 함께 하고 있어요
             </div>
 
-            {/* Member cards */}
             <div className="w-full max-w-[920px] pb-4 pt-10 text-xl font-semibold">
               정회원 & 준회원
             </div>
@@ -267,7 +263,6 @@ export default function MemberPage() {
           </motion.div>
         )}
 
-        {/* ═══ GAME MODE ═══ */}
         {(mode === 'game' || mode === 'transition-to-browse') && (
           <motion.div
             key="game"
@@ -281,7 +276,6 @@ export default function MemberPage() {
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.5 }}
           >
-            {/* Minimal game bar */}
             <div className="flex w-full max-w-[920px] items-center justify-between px-2">
               <div className="text-sm font-semibold text-slate-500">
                 {gameState.phase === 'completed'
@@ -296,7 +290,6 @@ export default function MemberPage() {
               </button>
             </div>
 
-            {/* Game grid */}
             <div
               className="mx-auto grid place-items-center gap-3 sm:gap-4"
               style={{
@@ -342,8 +335,6 @@ export default function MemberPage() {
           </motion.div>
         )}
       </AnimatePresence>
-
-
     </main>
   )
 }

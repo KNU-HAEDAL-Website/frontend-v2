@@ -1,16 +1,10 @@
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-export type Difficulty = 'easy' | 'normal' | 'hard'
-
-const PAIR_COUNTS: Record<Difficulty, number> = {
-  easy: 6,
-  normal: 8,
-  hard: 10,
-}
+const PAIR_COUNT = 6
 
 export interface MemoryCardData {
   id: string
-  pairId: string // same for both copies
+  pairId: string
   userName: string
   userImageUrl?: string
   userDetail?: string
@@ -34,7 +28,6 @@ export interface MemoryGameState {
   elapsedSeconds: number
 }
 
-// Seeded shuffle for deterministic results
 function shuffleArray<T>(arr: T[], seed: number): T[] {
   const result = [...arr]
   let s = seed
@@ -70,7 +63,6 @@ export function useMemoryGame() {
   const [elapsedSeconds, setElapsedSeconds] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
-  // Timer
   useEffect(() => {
     if (phase === 'playing' || phase === 'checking') {
       timerRef.current = setInterval(() => {
@@ -87,73 +79,58 @@ export function useMemoryGame() {
     }
   }, [phase])
 
-  /**
-   * Start a new game from profiles
-   */
-  const startGame = useCallback(
-    (profiles: MemberProfile[], difficulty: Difficulty) => {
-      const pairCount = PAIR_COUNTS[difficulty]
-      // Pick random profiles (up to pairCount)
-      const seed = Date.now()
-      const shuffledProfiles = shuffleArray(profiles, seed)
-      const selected = shuffledProfiles.slice(
-        0,
-        Math.min(pairCount, shuffledProfiles.length),
-      )
+  const startGame = useCallback((profiles: MemberProfile[]) => {
+    const seed = Date.now()
+    const shuffledProfiles = shuffleArray(profiles, seed)
+    const selected = shuffledProfiles.slice(
+      0,
+      Math.min(PAIR_COUNT, shuffledProfiles.length),
+    )
 
-      // Create pairs (2 cards per member)
-      const gameCards: MemoryCardData[] = []
-      selected.forEach((profile, i) => {
-        const pairId = `pair-${profile.userId}`
-        const rank = RANKS[i % RANKS.length]
-        const suit = SUITS[i % SUITS.length]
+    const gameCards: MemoryCardData[] = []
+    selected.forEach((profile, i) => {
+      const pairId = `pair-${profile.userId}`
+      const rank = RANKS[i % RANKS.length]
+      const suit = SUITS[i % SUITS.length]
 
-        // Card A
-        gameCards.push({
-          id: `${pairId}-a`,
-          pairId,
-          userName: profile.userName,
-          userImageUrl: profile.profileImageUrl,
-          userDetail: profile.profileIntro,
-          githubId: profile.githubAccount,
-          instagramId: profile.instaAccount,
-          position: profile.position,
-          rank,
-          suit,
-        })
-        // Card B (same data, different id)
-        gameCards.push({
-          id: `${pairId}-b`,
-          pairId,
-          userName: profile.userName,
-          userImageUrl: profile.profileImageUrl,
-          userDetail: profile.profileIntro,
-          githubId: profile.githubAccount,
-          instagramId: profile.instaAccount,
-          position: profile.position,
-          rank,
-          suit,
-        })
+      gameCards.push({
+        id: `${pairId}-a`,
+        pairId,
+        userName: profile.userName,
+        userImageUrl: profile.profileImageUrl,
+        userDetail: profile.profileIntro,
+        githubId: profile.githubAccount,
+        instagramId: profile.instaAccount,
+        position: profile.position,
+        rank,
+        suit,
       })
+      gameCards.push({
+        id: `${pairId}-b`,
+        pairId,
+        userName: profile.userName,
+        userImageUrl: profile.profileImageUrl,
+        userDetail: profile.profileIntro,
+        githubId: profile.githubAccount,
+        instagramId: profile.instaAccount,
+        position: profile.position,
+        rank,
+        suit,
+      })
+    })
 
-      // Shuffle game cards
-      const shuffledCards = shuffleArray(gameCards, seed + 42)
+    const shuffledCards = shuffleArray(gameCards, seed + 42)
 
-      setCards(shuffledCards)
-      setFlippedIds([])
-      setMatchedIds(new Set())
-      setAttempts(0)
-      setMatchedPairs(0)
-      setTotalPairs(selected.length)
-      setElapsedSeconds(0)
-      setPhase('playing')
-    },
-    [],
-  )
+    setCards(shuffledCards)
+    setFlippedIds([])
+    setMatchedIds(new Set())
+    setAttempts(0)
+    setMatchedPairs(0)
+    setTotalPairs(selected.length)
+    setElapsedSeconds(0)
+    setPhase('playing')
+  }, [])
 
-  /**
-   * Flip a card
-   */
   const flipCard = useCallback(
     (cardId: string) => {
       if (phase !== 'playing') return
@@ -172,7 +149,6 @@ export function useMemoryGame() {
         const secondCard = cards.find((c) => c.id === secondId)
 
         if (firstCard && secondCard && firstCard.pairId === secondCard.pairId) {
-          // Match!
           setTimeout(() => {
             setMatchedIds((prev) => {
               const next = new Set(prev)
@@ -182,7 +158,6 @@ export function useMemoryGame() {
             })
             setMatchedPairs((p) => {
               const newP = p + 1
-              // Check completion
               if (newP >= totalPairs) {
                 setPhase('completed')
               } else {
@@ -193,7 +168,6 @@ export function useMemoryGame() {
             setFlippedIds([])
           }, 600)
         } else {
-          // No match - flip back
           setTimeout(() => {
             setFlippedIds([])
             setPhase('playing')
