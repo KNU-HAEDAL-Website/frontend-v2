@@ -13,23 +13,23 @@ export const ADMIN_2026: Admin<Position2026>[] = [
   },
   {
     position: '부회장',
-    userId: 'song123',
+    userId: 'juyoung0620',
   },
   {
     position: '총무',
-    userId: 'ezzkim1',
+    userId: 'g1new25',
   },
   {
     position: '교육운영진장',
-    userId: 'churaly',
+    userId: 'edmondsu235',
   },
   {
     position: '트랙조직위원장',
-    userId: 'ysh0702',
+    userId: 'haetae050501',
   },
   {
     position: '홍보부장',
-    userId: 'juyoung0620',
+    userId: 'chaemin0601',
   },
   {
     position: '기술관리부장',
