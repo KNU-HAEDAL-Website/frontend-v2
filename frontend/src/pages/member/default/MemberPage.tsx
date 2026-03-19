@@ -317,7 +317,7 @@ export default function MemberPage() {
                   >
                     <TrumpMemberCard
                       userName={card.userName}
-                      userImageUrl={card.userImageUrl}
+                      userImageUrl={card.userImageUrl ?? ''}
                       userDetail={card.userDetail}
                       githubId={card.githubId}
                       instagramId={card.instagramId}
