@@ -4,7 +4,7 @@ import { getDateDistance } from '@toss/date'
 import { AnimatePresence, motion } from 'framer-motion'
 
 export const RecruitHero = () => {
-  const endDate = useMemo(() => new Date('2026-03-04T23:59:59+09:00'), [])
+  const endDate = useMemo(() => new Date('2026-03-13T23:59:59+09:00'), [])
   const [distance, setDistance] = useState(getDateDistance(new Date(), endDate))
 
   const [moonClicks, setMoonClicks] = useState(0)
@@ -192,7 +192,7 @@ export const RecruitHero = () => {
               'drop-shadow(0 2px 8px rgba(0,0,0,0.8)) drop-shadow(0 0 30px rgba(99,102,241,0.6))',
           }}
         >
-          해달에 합류하세요
+          모집이 마감되었습니다
         </div>
       </motion.div>
 
@@ -215,7 +215,7 @@ export const RecruitHero = () => {
           }}
         >
           <div className="rounded-full border border-slate-400/30 bg-slate-800/60 px-5 py-1.5 text-xs font-bold tracking-widest text-slate-300 sm:text-sm">
-            🌙 서류 마감까지
+            🌙 모집이 마감되었습니다
           </div>
           <div className="flex items-baseline gap-1 sm:gap-2">
             {[

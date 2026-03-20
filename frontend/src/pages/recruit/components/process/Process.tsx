@@ -64,7 +64,7 @@ export const RecruitProcess = () => {
           위대한 우주 비행
         </div>
         <div className="mt-2 text-xl font-bold tracking-wide text-amber-100 drop-shadow-[0_0_15px_rgba(0,0,0,0.8)] sm:text-3xl">
-          현재 준회원 모집중
+          준회원 모집이 마감되었습니다
         </div>
       </motion.div>
 
