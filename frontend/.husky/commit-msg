@@ -1,0 +1,10 @@
+repo_root=$(git rev-parse --show-toplevel)
+message_file=$1
+
+case "$message_file" in
+  /*) ;;
+  *) message_file="$repo_root/$message_file" ;;
+esac
+
+cd "$repo_root/frontend"
+pnpm exec commitlint --edit "$message_file"
