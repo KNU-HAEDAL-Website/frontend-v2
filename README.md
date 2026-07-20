@@ -34,4 +34,4 @@
 |[조대성](https://github.com/tfer2442)|[김아진](https://github.com/ppochaco)|[김강민](https://github.com/Dobbymin)|[김민주](https://github.com/joojjang)|
 
 ## 기여하기
-[문서](https://www.knu-haedal.com/activity/1/1/boards/1/posts/1)를 참고해주세요.
+[문서](https://www.knu-haedal.co.kr/activity/1/1/boards/1/posts/1)를 참고해주세요.
