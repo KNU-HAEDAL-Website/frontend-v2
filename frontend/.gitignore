@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+CLAUDE.local.md
 
 # eslint cache file
 .eslintcache
