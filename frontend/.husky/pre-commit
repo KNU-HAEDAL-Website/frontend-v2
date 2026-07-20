@@ -1,11 +1,2 @@
-echo "let's check the code! =^ . ｡.^="
-
-npx lint-staged
-
-pnpm run lint:fix
-
-echo "🎉 Formatting Test completed!"
-
-pnpm run tsc
-
-echo "✅ Type Check completed!"
+cd "$(git rev-parse --show-toplevel)/frontend"
+pnpm exec lint-staged

@@ -12,7 +12,7 @@
     "format": "prettier --write .",
     "tsc": "tsc -p tsconfig.json --noEmit",
     "swagger-typescript-api": "swagger-typescript-api -p https://www.knu-haedal.com/api/v3/api-docs -r -o ./src/models --modular -d --extract-request-body --extract-response-body --extract-response-error --axios",
-    "prepare": "husky"
+    "prepare": "cd .. && husky frontend/.husky"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -68,6 +68,8 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.17.0",
     "@tanstack/eslint-plugin-query": "^5.62.16",
     "@trivago/prettier-plugin-sort-imports": "^5.2.1",
