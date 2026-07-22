@@ -36,6 +36,3 @@ next-env.d.ts
 
 # api docs
 /src/models
-
-# claude
-.claude/
