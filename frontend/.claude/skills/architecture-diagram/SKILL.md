@@ -9,7 +9,7 @@ Keep the architecture guide accurate. Treat source code as the authority; do not
 
 ## Required reading
 
-Read `frontend/AGENTS.md` and the relevant files under `frontend/docs/architecture/` first. Then inspect only the source relevant to the request:
+Read `AGENTS.md` and the relevant files under `docs/architecture/` first. Then inspect only the source relevant to the request:
 
 - Routes or access control: `src/routes/Router.tsx` and applicable files in `src/routes/custom-route/`.
 - State or caching: `src/store/`, `src/lib/query-client.tsx`, and affected API modules in `src/service/api/`.
