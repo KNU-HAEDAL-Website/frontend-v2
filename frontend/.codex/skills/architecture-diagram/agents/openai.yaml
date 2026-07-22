@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Diagram"
+  short_description: "Verify and update architecture diagrams"
+  default_prompt: "Use $architecture-diagram to verify and update the frontend architecture diagrams."
