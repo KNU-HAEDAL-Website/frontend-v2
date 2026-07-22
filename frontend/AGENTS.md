@@ -43,7 +43,7 @@ git switch -c feature/<이슈번호>-<키워드>
 ```
 
 - `main`에는 직접 커밋하거나 push하지 않습니다. 작업 커밋과 push는 feature 브랜치에서만 수행합니다.
-- 커밋 메시지는 `type: 한국어 설명` 형식으로 작성하고, 설명에는 변경 내용의 목적과 의도를 간결하게 담습니다. Husky의 `commit-msg` 훅은 `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert` type과 한글 설명을 자동으로 검증합니다.
+- 커밋 제목은 `type: 한국어 설명` 형식으로 작성하고, 변경 내용을 간결하게 요약합니다. 의도·맥락·선택 이유를 설명할 필요가 있으면 제목 아래를 빈 줄로 구분한 본문에 문장으로 작성할 수 있습니다. Husky의 `commit-msg` 훅은 제목 형식을 자동으로 검증합니다.
 - Husky의 `pre-commit` 훅은 lint-staged를 실행해 스테이징된 JavaScript·TypeScript 파일을 포맷, 린트, 타입 검사합니다.
 - 커밋은 이슈의 TODO와 대응하게 만들고, 모든 TODO를 완료한 뒤 PR을 엽니다.
 - PR은 origin의 feature 브랜치에서 upstream의 `main`을 대상으로 만듭니다. 제목은 `<type>: <설명>` 형식이며, `type`은 `feature`, `fix`, `chore` 중 하나를 사용합니다.
