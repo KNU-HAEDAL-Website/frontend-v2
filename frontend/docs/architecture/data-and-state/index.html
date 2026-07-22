@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>데이터·상태 | 해달 프론트엔드 아키텍처</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html">해달 프론트엔드 아키텍처</a>
+      <nav class="site-nav" aria-label="아키텍처 문서"><a href="../index.html">시작</a><a href="../overview/index.html">구조</a><a href="../navigation-and-access/index.html">화면·접근</a><a href="index.html" aria-current="page">데이터·상태</a></nav>
+    </header>
+    <main>
+      <h1>데이터와 상태 관리</h1>
+      <p class="lede">서버에서 온 데이터는 React Query와 도메인 API 모듈로 관리하고, 인증 토큰과 내 정보처럼 브라우저에 유지해야 하는 클라이언트 상태만 Zustand에 둡니다.</p>
+      <pre class="mermaid">
+flowchart LR
+  Form[react-hook-form] --> Schema[service/schema: Zod 검증]
+  Schema --> UI[페이지·기능 컴포넌트]
+  UI --> Query[React Query: useQuery·useMutation]
+  UI --> Store[Zustand persist]
+  Query --> API[service/api 도메인 모듈]
+  API --> Public[BACKEND_API]
+  API --> Private[AUTHORIZATION_API]
+  Private --> Token[access-token store]
+  Private --> Interceptor[401 인터셉터]
+  Interceptor --> Reissue[reissue API]
+  Reissue --> Token
+  Interceptor --> Logout[logout API·my-info 초기화]
+  API --> Generated[service/model 생성 클라이언트]
+  Query --> Cache[QueryClient 캐시]
+  Query --> Invalidate[관련 Query 키 무효화]
+  Invalidate --> Feedback[toast와 화면 이동]
+      </pre>
+      <h2>상태의 위치</h2>
+      <table>
+        <thead><tr><th>종류</th><th>현재 구현</th><th>추가 기준</th></tr></thead>
+        <tbody>
+          <tr><td>서버 상태</td><td><code>service/api</code>의 <code>queryOptions</code>, 페이지·컴포넌트의 <code>useQuery</code>/<code>useMutation</code></td><td>조회에는 도메인 Query 옵션과 안정적인 Query 키를 만들고, 변경 성공 뒤 관련 <code>all()</code> 또는 목록 키를 무효화합니다.</td></tr>
+          <tr><td>클라이언트 영속 상태</td><td><code>useAuthStore</code>: access token, <code>useMyInfoStore</code>: 사용자 ID·이름·역할·프로필 이미지</td><td>서버 응답 캐시가 아닌 세션·UI 전역 상태이며 새로고침 뒤에도 필요한 값만 추가합니다.</td></tr>
+          <tr><td>Query 기본 정책</td><td>재시도 1회, stale time 3분, mount/window focus 재조회 비활성화, 오류 throw</td><td>도메인별 요구가 다를 때만 호출 지점에서 명시적으로 재정의합니다.</td></tr>
+        </tbody>
+      </table>
+      <h2>새 API·데이터 변경 흐름</h2>
+      <ol>
+        <li>입력이 있으면 <code>service/schema</code>에 Zod 스키마와 폼 타입을 두고 <code>react-hook-form</code>에서 사용합니다.</li>
+        <li><code>service/api</code>에 생성 클라이언트를 감싼 API 함수와 조회용 Query 옵션·키를 추가합니다.</li>
+        <li>mutation 성공 뒤 영향받는 <code>all()</code> 또는 목록 키를 <code>queryClient.invalidateQueries</code>로 무효화합니다.</li>
+        <li>필요한 경우 toast로 결과를 알리고, 생성·수정 후에는 목적 화면으로 이동합니다.</li>
+      </ol>
+      <h2>로딩과 오류 경계</h2>
+      <ul>
+        <li><code>useSuspenseQuery</code>를 쓰는 화면은 상위 <code>Suspense</code>와 <code>ErrorBoundary</code>가 있는지 확인합니다.</li>
+        <li>공지·회원의 <code>SuspenseRoute</code>는 공통 Spinner와 기본 오류 화면을, 활동의 <code>ActivityRoute</code>는 활동 전용 fallback을 제공합니다.</li>
+        <li>mutation과 폼 오류는 호출 지점에서 toast·필드 오류로 처리합니다. 새 mutation은 성공·실패 피드백을 함께 설계합니다.</li>
+      </ul>
+      <h2>API와 인증 흐름</h2>
+      <ul>
+        <li>공개 요청은 <code>BACKEND_API</code>, 인증이 필요한 요청은 <code>AUTHORIZATION_API</code>를 사용합니다.</li>
+        <li>인증 인스턴스는 Zustand의 access token을 <code>Authorization</code> 헤더에 붙이고 쿠키를 포함합니다.</li>
+        <li>401 응답은 단일 토큰 재발급 요청으로 묶고, 성공하면 대기 요청을 새 토큰으로 재시도합니다.</li>
+        <li>재발급 실패 시 로그아웃 API를 시도한 뒤 내 정보 상태 초기화와 알림을 수행하도록 구현되어 있습니다. 로그아웃 요청 자체가 실패하면 해당 후속 정리는 보장되지 않는 현재 위험입니다.</li>
+      </ul>
+      <aside class="notice"><strong>주의:</strong> <code>src/service/config/</code>의 API 기본 URL, 인증 인터셉터, 쿠키·토큰 처리는 서비스 계약과 보안에 영향을 줍니다. 변경 전 명시적인 검토가 필요합니다.</aside>
+      <p class="footer"><a href="../navigation-and-access/index.html">이전: 화면·접근</a> · <a href="../index.html">시작으로</a></p>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, securityLevel: 'strict', theme: 'neutral' });</script>
+  </body>
+</html>

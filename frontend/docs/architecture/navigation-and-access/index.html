@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>화면·접근 | 해달 프론트엔드 아키텍처</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html">해달 프론트엔드 아키텍처</a>
+      <nav class="site-nav" aria-label="아키텍처 문서"><a href="../index.html">시작</a><a href="../overview/index.html">구조</a><a href="index.html" aria-current="page">화면·접근</a><a href="../data-and-state/index.html">데이터·상태</a></nav>
+    </header>
+    <main>
+      <h1>화면 진입과 접근 제어</h1>
+      <p class="lede">모든 라우트는 <code>src/routes/Router.tsx</code>에 선언합니다. 새 화면은 URL과 함께 어떤 레이아웃, 로딩 경계, 인증·역할 가드를 거치는지 결정해야 합니다.</p>
+      <pre class="mermaid">
+flowchart TD
+  Root["/"] --> MainPage[MainPage]
+  Root --> Recruit["/recruit · RecruitPage"]
+  Root --> Auth["/auth · AuthRoute"]
+  Auth --> Login[login]
+  Auth --> Signup[signup]
+  Auth --> Find[find]
+  Root --> Main[MainRoute + MainLayout]
+  Main --> Activity["/activity · ActivityRoute"]
+  Main --> Notice["/notice · SuspenseRoute"]
+  Main --> Member["/member · SuspenseRoute"]
+  Main --> MyPage["/mypage · MyPageRoute"]
+  Root --> Admin["/admin · AdminRoute + MainLayout"]
+  Admin --> AdminMember[member]
+  Admin --> AdminSemester[semester]
+  Activity --> Board[boards와 posts]
+  Activity --> Redirect[":semesterId 리다이렉트"]
+  Notice --> AdminNotice[AdminNoticeRoute: 작성·수정]
+  Root --> NotFound["/* · NotFoundPage"]
+      </pre>
+      <h2>가드와 레이아웃</h2>
+      <table>
+        <thead><tr><th>경계</th><th>적용 대상</th><th>동작</th></tr></thead>
+        <tbody>
+          <tr><td><code>MainRoute</code></td><td>활동, 공지, 회원, 마이페이지</td><td><code>MainLayout</code>과 공통 콘텐츠 여백을 제공합니다.</td></tr>
+          <tr><td><code>AuthRoute</code></td><td><code>/auth/*</code></td><td>로그인 사용자를 <code>/</code>로 이동시키고 인증 화면 레이아웃을 제공합니다.</td></tr>
+          <tr><td><code>MyPageRoute</code></td><td><code>/mypage</code></td><td>access token이 없으면 <code>/</code>로 이동하고, 있으면 Suspense 경계를 제공합니다.</td></tr>
+          <tr><td><code>AdminRoute</code></td><td><code>/admin/*</code></td><td><code>ROLE_ADMIN</code> 이상만 관리 사이드바와 화면에 접근합니다.</td></tr>
+          <tr><td><code>AdminNoticeRoute</code></td><td>공지 작성·수정</td><td><code>ROLE_ADMIN</code> 미만이면 <code>/notice</code>로 이동합니다.</td></tr>
+          <tr><td><code>AdminBoardRoute</code></td><td>활동 게시판 수정</td><td><code>ROLE_TEAM_LEADER</code> 미만이면 이전 화면으로 이동합니다.</td></tr>
+          <tr><td><code>AdminActivityPostRoute</code></td><td>활동 게시글 수정</td><td><code>ROLE_MEMBER</code> 미만이면 이전 화면으로 이동합니다.</td></tr>
+        </tbody>
+      </table>
+      <h2>역할과 리다이렉트 기준</h2>
+      <table>
+        <thead><tr><th>역할 순서</th><th>적용 방식</th><th>리다이렉트 예시</th></tr></thead>
+        <tbody>
+          <tr><td><code>ROLE_WEB_MASTER</code> → <code>ROLE_ADMIN</code> → <code>ROLE_TEAM_LEADER</code> → <code>ROLE_MEMBER</code></td><td><code>isRoleAboveOrEqual</code>은 대상 역할과 같거나 상위 역할을 허용합니다.</td><td>관리자·공지 가드는 지정 경로로 이동하고, 활동 수정 가드는 이전 화면으로 이동합니다.</td></tr>
+          <tr><td>인증되지 않은 사용자</td><td><code>MyPageRoute</code>는 access token을 확인합니다.</td><td><code>/mypage</code> 접근 시 <code>/</code>로 이동합니다.</td></tr>
+          <tr><td>알 수 없는 경로</td><td>최상위 와일드카드 라우트가 처리합니다.</td><td><code>NotFoundPage</code>를 렌더링합니다.</td></tr>
+        </tbody>
+      </table>
+      <h2>새 화면 추가 체크</h2>
+      <ol>
+        <li><code>src/pages</code>에 화면을 두고 <code>src/pages/index.ts</code>에서 노출합니다.</li>
+        <li><code>Router.tsx</code>에 URL을 추가하고 상위 레이아웃과 가드를 선택합니다.</li>
+        <li>로그인 또는 역할이 필요하면 기존 가드가 조건과 리다이렉트 방식에 맞는지 확인합니다.</li>
+        <li>데이터 조회나 변경이 있으면 <a href="../data-and-state/index.html">데이터·상태</a>의 Query·상태 기준을 적용합니다.</li>
+      </ol>
+      <p class="footer"><a href="../overview/index.html">이전: 구조</a> · <a href="../data-and-state/index.html">다음: 데이터·상태</a></p>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, securityLevel: 'strict', theme: 'neutral' });</script>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>해달 프론트엔드 아키텍처</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html">해달 프론트엔드 아키텍처</a>
+      <nav class="site-nav" aria-label="아키텍처 문서">
+        <a href="index.html" aria-current="page">시작</a>
+        <a href="overview/index.html">구조</a>
+        <a href="navigation-and-access/index.html">화면·접근</a>
+        <a href="data-and-state/index.html">데이터·상태</a>
+      </nav>
+    </header>
+    <main>
+      <h1>기능을 안전하게 추가하기 위한 구조 안내</h1>
+      <p class="lede">새 기능을 어느 계층에 두고, 어떤 라우트·권한·데이터 흐름을 함께 확인해야 하는지 안내합니다.</p>
+      <div class="card-grid">
+        <article class="card"><h2><a href="overview/index.html">구조</a></h2><p>페이지, 공통 컴포넌트, 서비스, 상태 계층의 책임과 의존 방향을 확인합니다.</p></article>
+        <article class="card"><h2><a href="navigation-and-access/index.html">화면·접근</a></h2><p>새 화면의 URL, 레이아웃, 로그인·역할 조건을 결정합니다.</p></article>
+        <article class="card"><h2><a href="data-and-state/index.html">데이터·상태</a></h2><p>API 호출, 캐시 무효화, 클라이언트 상태와 인증 흐름을 추가합니다.</p></article>
+      </div>
+      <h2>갱신 기준</h2>
+      <ul>
+        <li>계층 책임이나 디렉터리 경계가 바뀌면 <a href="overview/index.html">구조</a>를 갱신합니다.</li>
+        <li>화면·라우트·레이아웃·가드·역할 조건이 바뀌면 <a href="navigation-and-access/index.html">화면·접근</a>을 갱신합니다.</li>
+        <li>API·React Query·Zustand·인증 요청 흐름이 바뀌면 <a href="data-and-state/index.html">데이터·상태</a>를 갱신합니다.</li>
+      </ul>
+      <aside class="notice"><strong>검증:</strong> 다이어그램 갱신이나 구조 검증이 필요하면 <code>$architecture-diagram</code>을 요청합니다. 스킬은 코드와 문서를 대조해 필요한 파일만 수정합니다.</aside>
+      <p class="footer">릴리스마다 문서 최신성을 점검합니다. 이 문서는 저장소에서 직접 브라우저로 열람하는 용도입니다.</p>
+    </main>
+  </body>
+</html>

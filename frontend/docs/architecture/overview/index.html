@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>구조 | 해달 프론트엔드 아키텍처</title>
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../index.html">해달 프론트엔드 아키텍처</a>
+      <nav class="site-nav" aria-label="아키텍처 문서"><a href="../index.html">시작</a><a href="index.html" aria-current="page">구조</a><a href="../navigation-and-access/index.html">화면·접근</a><a href="../data-and-state/index.html">데이터·상태</a></nav>
+    </header>
+    <main>
+      <h1>구조와 의존 방향</h1>
+      <p class="lede">기능을 추가할 때는 화면에서 서비스와 상태 계층으로 내려가는 방향을 유지하고, 공통 UI와 도메인 기능 UI의 책임을 구분합니다.</p>
+      <pre class="mermaid">
+flowchart TD
+  Main[main.tsx: StrictMode와 전역 CSS] --> App[App.tsx]
+  App --> Provider[React Query Provider]
+  App --> Toaster[전역 Toaster]
+  Provider --> Router[Router와 route guards]
+  Router --> Pages[pages: 화면 단위 조합]
+  Pages --> Feature[components/feature: 도메인 UI]
+  Pages --> Common[components/common·ui: 재사용 UI]
+  Feature --> Service
+  Feature --> Store
+  Pages --> Service[service/api: API·query options]
+  Service --> Config[service/config: Axios 인스턴스·인터셉터]
+  Service --> Model[service/model: 생성된 API 모델]
+  Pages --> Store[store: 영속 클라이언트 상태]
+  Config --> Store
+      </pre>
+      <h2>계층별 책임</h2>
+      <table>
+        <thead><tr><th>영역</th><th>책임</th><th>새 기능을 추가할 때</th></tr></thead>
+        <tbody>
+          <tr><td><code>pages</code></td><td>라우트에 연결되는 화면과 화면 전용 조합</td><td>새 화면의 진입점과 화면 전용 하위 컴포넌트를 둡니다.</td></tr>
+          <tr><td><code>components/ui</code></td><td>Radix·CVA 기반의 디자인 시스템 프리미티브</td><td>Button, Input, Dialog처럼 조합 가능한 기본 제어 요소를 추가합니다.</td></tr>
+          <tr><td><code>components/common</code></td><td>앱 전반에서 재사용하는 의미 있는 조합 컴포넌트</td><td>Logo, LinkButton, Pagination처럼 UI 프리미티브를 조합한 앱 공통 패턴을 추가합니다.</td></tr>
+          <tr><td><code>components/feature</code></td><td>댓글, 게시글, 레이아웃 등 도메인 기능 UI</td><td>여러 페이지에서 공유되는 도메인 UI를 둡니다.</td></tr>
+          <tr><td><code>service/api</code></td><td>생성 API 클라이언트를 감싼 호출, Query 옵션, mutation용 함수</td><td>API 경계와 Query 키를 도메인 모듈에 추가합니다.</td></tr>
+          <tr><td><code>service/config</code></td><td>Axios 인스턴스와 인증 오류 처리</td><td>보안·계약 영향이 있으므로 명시적 검토 없이 변경하지 않습니다.</td></tr>
+          <tr><td><code>store</code></td><td>Zustand 기반 영속 클라이언트 상태</td><td>서버 캐시가 아닌 UI·세션 상태만 추가합니다.</td></tr>
+          <tr><td><code>lib</code></td><td>QueryClient, Axios 생성 등 인프라 보조 코드</td><td>여러 도메인이 공유하는 기반 동작에만 사용합니다.</td></tr>
+        </tbody>
+      </table>
+      <h2><code>components/common</code>과 <code>components/ui</code> 구분</h2>
+      <table>
+        <thead><tr><th>구분</th><th><code>components/ui</code></th><th><code>components/common</code></th></tr></thead>
+        <tbody>
+          <tr><td>목적</td><td>일관된 스타일·접근성을 제공하는 가장 작은 UI 단위</td><td>여러 화면에서 반복되는 앱 수준의 사용자 경험을 캡슐화</td></tr>
+          <tr><td>예시</td><td><code>Button</code>, <code>Input</code>, <code>Dialog</code>, <code>Select</code>, <code>Skeleton</code></td><td><code>Logo</code>, <code>LinkButton</code>, <code>PageBreadcrumb</code>, <code>PaginationButtons</code>, <code>ImageInput</code></td></tr>
+          <tr><td>허용 의존성</td><td>Radix, 스타일 유틸리티, 범용 props·접근성 상태</td><td><code>components/ui</code>, React Router 링크, 앱 공통 asset·유틸리티</td></tr>
+          <tr><td>두면 안 되는 것</td><td>라우트, 도메인 모델, API 호출, Zustand 스토어</td><td>특정 도메인의 API·스토어·권한 규칙</td></tr>
+          <tr><td>새 컴포넌트 판단</td><td>다른 기능에서도 독립적으로 조합할 수 있는 기본 제어 요소인가?</td><td>도메인과 무관하지만 앱에서 같은 흐름·표현이 반복되는가?</td></tr>
+        </tbody>
+      </table>
+      <h2>컴포넌트 의존성 기준</h2>
+      <table>
+        <thead><tr><th>영역</th><th>허용되는 의존성</th><th>피해야 할 의존성</th></tr></thead>
+        <tbody>
+          <tr><td><code>pages</code></td><td>라우트 파라미터, 화면 조합, feature/common UI, API·상태 조율</td><td>다른 페이지 구현의 직접 재사용</td></tr>
+          <tr><td><code>components/feature</code></td><td>도메인 UI, API 조회·mutation, 필요한 세션 상태</td><td>서로 무관한 도메인의 UI·화면 컴포넌트</td></tr>
+          <tr><td><code>components/ui</code></td><td>props와 범용 UI 상태</td><td>도메인 API, Zustand 스토어, 특정 라우트에 대한 직접 의존</td></tr>
+          <tr><td><code>components/common</code></td><td><code>components/ui</code>, Router 링크, 공통 asset·유틸리티</td><td>특정 도메인의 API·스토어·권한 규칙</td></tr>
+        </tbody>
+      </table>
+      <h2>함께 확인할 지원 영역</h2>
+      <ul>
+        <li><code>service/schema</code>: Zod 기반 입력 검증</li>
+        <li><code>types</code>: 역할·학기 등 앱 공통 타입</li>
+        <li><code>utils</code>, <code>constant</code>: 역할 비교, 변환, 오류 메시지</li>
+        <li><code>data</code>, <code>assets</code>: 정적 콘텐츠와 이미지·SVG</li>
+      </ul>
+      <aside class="notice"><strong>생성 코드:</strong> <code>src/service/model/</code>과 <code>src/lib/http-client.ts</code>는 Swagger 생성 파일입니다. 직접 수정하지 않고 호출부와 API 계약을 검토합니다.</aside>
+      <p class="footer"><a href="../index.html">시작으로</a> · 다음: <a href="../navigation-and-access/index.html">화면·접근</a></p>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({ startOnLoad: true, securityLevel: 'strict', theme: 'neutral' });</script>
+  </body>
+</html>
