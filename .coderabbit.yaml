@@ -1,0 +1,6 @@
+language: "ko-KR" # 리뷰 언어 설정
+
+reviews:
+  related_issues: false # 관련 이슈/PR 자동 링크
+  suggested_labels: false # 레이블 자동 제안/적용 (수동으로 관리)
+  suggested_reviewers: false # 리뷰어 추천/자동 할당 (수동으로 지정)
