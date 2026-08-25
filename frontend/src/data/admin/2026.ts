@@ -21,7 +21,7 @@ export const ADMIN_2026: Admin<Position2026>[] = [
   },
   {
     position: '교육운영진장',
-    userId: 'edmondsu235',
+    userId: 'suwan1105',
   },
   {
     position: '트랙조직위원장',
@@ -33,6 +33,6 @@ export const ADMIN_2026: Admin<Position2026>[] = [
   },
   {
     position: '기술관리부장',
-    userId: 'juyoung0620',
+    userId: 'system123',
   },
 ] as const
