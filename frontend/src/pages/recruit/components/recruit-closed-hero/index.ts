@@ -1,1 +1,0 @@
-export { RecruitClosedHero } from './RecruitClosedHero'

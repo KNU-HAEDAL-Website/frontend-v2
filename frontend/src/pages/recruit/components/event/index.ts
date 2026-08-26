@@ -1,1 +1,0 @@
-export { RecruitEvent } from './Event'
