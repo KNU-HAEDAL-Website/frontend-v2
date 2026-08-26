@@ -9,7 +9,7 @@ import { Contributors } from './Contributors'
 import { Hero } from './Hero'
 import { Highlights } from './Highlights'
 import { Join } from './Join'
-import { Projects } from './Projects'
+// import { Projects } from './Projects'
 import Schedule from './Schedule'
 import { Stats } from './Stats'
 
@@ -224,9 +224,9 @@ export const RecruitHome = () => {
         <ScrollReveal direction="right">
           <Activities />
         </ScrollReveal>
-        <ScrollReveal direction="scale">
-          <Projects />
-        </ScrollReveal>
+        {/*<ScrollReveal direction="scale">*/}
+        {/*  <Projects />*/}
+        {/*</ScrollReveal>*/}
         <ScrollReveal direction="left">
           <Highlights />
         </ScrollReveal>

@@ -65,7 +65,7 @@ export const clubActivities: ClubActivity[] = [
 export const websiteProject = {
   title: '해달 웹사이트 프로젝트',
   summary:
-    '현재 해달에서는 동아리 공식 웹사이트를 재작성하는 프로젝트를 진행 중 입니다.',
+    '현재 해달에서는 동아리 공식 웹사이트를 재작성하는 프로젝트를 진행 중입니다.',
   descriptions: [
     '공식 웹사이트에 직접 기여하고 \n Maintainer 또는 Contributor로 이름을 남길 수 있으며,\n여러 분야의 참여자를 필요로 합니다.',
     '장기 프로젝트로 동아리방의 서버 컴퓨터 2대를 백엔드 배포 환경으로 활용하고 지속해서 유지보수합니다.',

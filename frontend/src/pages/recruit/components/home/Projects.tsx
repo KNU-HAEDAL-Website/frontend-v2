@@ -1,4 +1,4 @@
-import { allProjectsHref, projects } from '../../data/projects.data'
+import { projects } from '../../data/projects.data'
 
 const ITEMS_PER_SHELF = 4
 
@@ -14,7 +14,7 @@ export function Projects() {
       <div className="projects__inner">
         <header className="projects__header">
           <div>
-            <p className="projects__eyebrow">PROJECT CATALOG</p>
+            {/*<p className="projects__eyebrow">PROJECT CATALOG</p>*/}
             <h2 id="projects-title" className="projects__title">
               해달의
               <br />
@@ -22,12 +22,12 @@ export function Projects() {
             </h2>
           </div>
 
-          <a className="projects__allLink" href={allProjectsHref}>
-            <span>전체 프로젝트 보기</span>
-            <svg viewBox="0 0 48 20" aria-hidden="true">
-              <path d="M1 10H44M37 3L44 10L37 17" />
-            </svg>
-          </a>
+          {/*<a className="projects__allLink" href={allProjectsHref}>*/}
+          {/*  <span>전체 프로젝트 보기</span>*/}
+          {/*  <svg viewBox="0 0 48 20" aria-hidden="true">*/}
+          {/*    <path d="M1 10H44M37 3L44 10L37 17" />*/}
+          {/*  </svg>*/}
+          {/*</a>*/}
         </header>
 
         <div className="projects__catalog">
@@ -314,7 +314,7 @@ export function Projects() {
           font-weight: 700;
           line-height: 1.15;
           letter-spacing: -0.055em;
-          word-break: keep-all;
+          // word-break: keep-all;
         }
 
         .projects__overlayContent > span {
@@ -323,7 +323,7 @@ export function Projects() {
           font-weight: 400;
           line-height: 1.55;
           letter-spacing: -0.03em;
-          word-break: keep-all;
+          // word-break: keep-all;
         }
 
         .projects__overlay > svg {
