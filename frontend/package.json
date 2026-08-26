@@ -16,9 +16,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "npm run format",
-      "npm run lint:fix",
-      "npm run tsc"
+      "prettier --write",
+      "eslint --fix"
     ]
   },
   "dependencies": {
