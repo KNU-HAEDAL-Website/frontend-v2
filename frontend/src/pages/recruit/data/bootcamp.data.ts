@@ -196,60 +196,6 @@ int main(void) {
     ],
   },
   {
-    slug: 'spring',
-    name: 'Spring Boot',
-    level: '심화',
-    day: ['월', '수'],
-    headline: 'Write Once, Run Anywhere (Java)',
-    sampleLabel: 'JAVA',
-    sample: `@GetMapping("/members/{id}")
-public Member find(@PathVariable Long id) {
-    return memberService.findById(id);
-}`,
-    curriculum: [
-      {
-        period: '1차시',
-        subject: '환경 설정, 스프링 프로젝트 생성',
-        outcome: '교육운영진: 이영빈',
-      },
-      {
-        period: '2차시',
-        subject: 'ERD, API, 자바 문법, Web 개념',
-        outcome: '교육운영진: 이영빈',
-      },
-      {
-        period: '3차시',
-        subject: '폴더 구조, User(Auth 제외) CRUD, DTO 개념, 예외 처리 핸들러',
-        outcome: '교육운영진: 이영빈',
-      },
-      {
-        period: '4차시',
-        subject: '컨테이너, Bean 개념, DI',
-        outcome: '교육운영진: 이영빈',
-      },
-      {
-        period: '5차시',
-        subject: '로그인(세션, HttpServlet)',
-        outcome: '교육운영진: 이영빈',
-      },
-      {
-        period: '6차시',
-        subject: '이미지, 포스트',
-        outcome: '교육운영진: 이영빈',
-      },
-      {
-        period: '7차시',
-        subject: 'Like, Follow',
-        outcome: '교육운영진: 이영빈',
-      },
-      {
-        period: '8차시',
-        subject: '해커톤 프로젝트 기획 및 백엔드 개발자의 역할',
-        outcome: '교육운영진: 이영빈',
-      },
-    ],
-  },
-  {
     slug: 'vibe-coding',
     name: 'Vibe Coding',
     level: '기초',
@@ -308,6 +254,61 @@ public Member find(@PathVariable Long id) {
       },
     ],
   },
+  {
+    slug: 'spring',
+    name: 'Spring Boot',
+    level: '심화',
+    day: ['월', '수'],
+    headline: 'Write Once, Run Anywhere (Java)',
+    sampleLabel: 'JAVA',
+    sample: `@GetMapping("/members/{id}")
+public Member find(@PathVariable Long id) {
+    return memberService.findById(id);
+}`,
+    curriculum: [
+      {
+        period: '1차시',
+        subject: '환경 설정, 스프링 프로젝트 생성',
+        outcome: '교육운영진: 이영빈',
+      },
+      {
+        period: '2차시',
+        subject: 'ERD, API, 자바 문법, Web 개념',
+        outcome: '교육운영진: 이영빈',
+      },
+      {
+        period: '3차시',
+        subject: '폴더 구조, User(Auth 제외) CRUD, DTO 개념, 예외 처리 핸들러',
+        outcome: '교육운영진: 이영빈',
+      },
+      {
+        period: '4차시',
+        subject: '컨테이너, Bean 개념, DI',
+        outcome: '교육운영진: 이영빈',
+      },
+      {
+        period: '5차시',
+        subject: '로그인(세션, HttpServlet)',
+        outcome: '교육운영진: 이영빈',
+      },
+      {
+        period: '6차시',
+        subject: '이미지, 포스트',
+        outcome: '교육운영진: 이영빈',
+      },
+      {
+        period: '7차시',
+        subject: 'Like, Follow',
+        outcome: '교육운영진: 이영빈',
+      },
+      {
+        period: '8차시',
+        subject: '해커톤 프로젝트 기획 및 백엔드 개발자의 역할',
+        outcome: '교육운영진: 이영빈',
+      },
+    ],
+  },
+
   {
     slug: 'flutter',
     name: 'Flutter',

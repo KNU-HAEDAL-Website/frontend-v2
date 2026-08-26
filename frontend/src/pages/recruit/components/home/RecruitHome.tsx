@@ -3,6 +3,7 @@ import { useRef } from 'react'
 
 import { motion, useReducedMotion, useScroll, useSpring } from 'framer-motion'
 
+import { Activities } from './Activities'
 import { Bootcamp } from './Bootcamp'
 import { Contributors } from './Contributors'
 import { Hero } from './Hero'
@@ -11,7 +12,6 @@ import { Join } from './Join'
 import { Projects } from './Projects'
 import Schedule from './Schedule'
 import { Stats } from './Stats'
-import { Tracks } from './Tracks'
 
 type RevealDirection = 'up' | 'left' | 'right' | 'scale'
 
@@ -149,15 +149,50 @@ export const RecruitHome = () => {
           background: #ffffff;
         }
 
+        .home__sections .stats__title,
+        .home__sections .bootcamp__title,
+        .home__sections .club-activities__title,
+        .home__sections .projects__title,
+        .home__sections .highlights-heading h2,
+        .home__sections .schedule-sidebar__month,
+        .home__sections .join__title,
+        .home__sections .contributors__title {
+          font-size: clamp(4rem, 4.5vw, 5.5rem);
+        }
+
         .home__sections .stats__inner,
         .home__sections .join__inner {
           min-height: auto;
+        }
+
+        @media (max-width: 68.75rem) {
+          .home__sections .stats__title,
+          .home__sections .bootcamp__title,
+          .home__sections .club-activities__title,
+          .home__sections .projects__title,
+          .home__sections .highlights-heading h2,
+          .home__sections .schedule-sidebar__month,
+          .home__sections .join__title,
+          .home__sections .contributors__title {
+            font-size: clamp(3.5rem, 6vw, 4.25rem);
+          }
         }
 
         @media (max-width: 45rem) {
           .home__sections {
             gap: clamp(4.5rem, 18vw, 7rem);
             padding: clamp(4.5rem, 18vw, 7rem) 1rem;
+          }
+
+          .home__sections .stats__title,
+          .home__sections .bootcamp__title,
+          .home__sections .club-activities__title,
+          .home__sections .projects__title,
+          .home__sections .highlights-heading h2,
+          .home__sections .schedule-sidebar__month,
+          .home__sections .join__title,
+          .home__sections .contributors__title {
+            font-size: clamp(2.5rem, 10.5vw, 3.375rem);
           }
         }
 
@@ -187,7 +222,7 @@ export const RecruitHome = () => {
           <Bootcamp />
         </ScrollReveal>
         <ScrollReveal direction="right">
-          <Tracks />
+          <Activities />
         </ScrollReveal>
         <ScrollReveal direction="scale">
           <Projects />

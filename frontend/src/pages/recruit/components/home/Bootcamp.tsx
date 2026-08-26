@@ -50,23 +50,23 @@ export function Bootcamp() {
   return (
     <section
       ref={sectionRef}
-      className="activities"
-      aria-labelledby="activities-title"
+      className="bootcamp"
+      aria-labelledby="bootcamp-title"
     >
-      <div className="activities__inner">
-        <header className="activities__masthead" ref={mastheadRef}>
-          <h2 id="activities-title" className="activities__title">
+      <div className="bootcamp__inner">
+        <header className="bootcamp__masthead" ref={mastheadRef}>
+          <h2 id="bootcamp-title" className="bootcamp__title">
             <span className="scroll-highlight-wrapper">
               해달 그리고
               <br />
-              <em className="activities_titleLine">부트캠프</em>
+              <em className="bootcamp__titleLine">부트캠프</em>
             </span>
           </h2>
         </header>
 
-        <div className="activities__catalog">
-          <nav className="activities__directory" aria-label="부트캠프 선택">
-            <ol className="activities__tabs">
+        <div className="bootcamp__catalog">
+          <nav className="bootcamp__directory" aria-label="부트캠프 선택">
+            <ol className="bootcamp__tabs">
               {bootcamps.map((bootcamp, index) => {
                 const isActive = index === currentIndex
 
@@ -75,22 +75,18 @@ export function Bootcamp() {
                     <button
                       type="button"
                       className={
-                        isActive
-                          ? 'activities__tab is-active'
-                          : 'activities__tab'
+                        isActive ? 'bootcamp__tab is-active' : 'bootcamp__tab'
                       }
                       aria-pressed={isActive}
-                      aria-controls="activities-panel"
+                      aria-controls="bootcamp-panel"
                       onClick={() => setActiveSlug(bootcamp.slug)}
                     >
-                      <span className="activities__tabNumber">
+                      <span className="bootcamp__tabNumber">
                         {formatIndex(index)}
                       </span>
-                      <span className="activities__tabName">
-                        {bootcamp.name}
-                      </span>
+                      <span className="bootcamp__tabName">{bootcamp.name}</span>
                       <span
-                        className="activities__availability"
+                        className="bootcamp__availability"
                         aria-hidden="true"
                       />
                     </button>
@@ -102,30 +98,28 @@ export function Bootcamp() {
 
           <article
             key={activeBootcamp.slug}
-            id="activities-panel"
-            className="activities__panel"
+            id="bootcamp-panel"
+            className="bootcamp__panel"
             tabIndex={0}
             aria-live="polite"
-            aria-labelledby="activities-current-title"
+            aria-labelledby="bootcamp-current-title"
           >
-            <header className="activities__panelHeader">
+            <header className="bootcamp__panelHeader">
               <div>
-                <div className="activities__nameLine">
-                  <h3 id="activities-current-title">{activeBootcamp.name}</h3>
+                <div className="bootcamp__nameLine">
+                  <h3 id="bootcamp-current-title">{activeBootcamp.name}</h3>
                   <span>{activeBootcamp.level}</span>
                 </div>
-                <p className="activities__headline">
-                  {activeBootcamp.headline}
-                </p>
+                <p className="bootcamp__headline">{activeBootcamp.headline}</p>
               </div>
-              <p className="activities__count" aria-hidden="true">
+              <p className="bootcamp__count" aria-hidden="true">
                 {formatIndex(currentIndex)}
                 <span>/ {String(bootcamps.length).padStart(2, '0')}</span>
               </p>
             </header>
 
             <figure
-              className="activities__sample"
+              className="bootcamp__sample"
               aria-label={`${activeBootcamp.name} 예제 코드`}
             >
               {/*<figcaption>SAMPLE — {activeBootcamp.sampleLabel}</figcaption>*/}
@@ -135,18 +129,18 @@ export function Bootcamp() {
             </figure>
 
             <section
-              className="activities__curriculum"
-              aria-labelledby="activities-curriculum-title"
+              className="bootcamp__curriculum"
+              aria-labelledby="bootcamp-curriculum-title"
             >
-              <header className="activities__curriculumHeader">
-                <h4 id="activities-curriculum-title">CURRICULUM</h4>
+              <header className="bootcamp__curriculumHeader">
+                <h4 id="bootcamp-curriculum-title">CURRICULUM</h4>
               </header>
               <ol>
                 {activeBootcamp.curriculum.map((item) => (
                   <li key={`${activeBootcamp.slug}-${item.period}`}>
-                    <span className="activities__period">{item.period}</span>
+                    <span className="bootcamp__period">{item.period}</span>
                     <strong>{item.subject}</strong>
-                    <span className="activities__outcome">{item.outcome}</span>
+                    <span className="bootcamp__outcome">{item.outcome}</span>
                   </li>
                 ))}
               </ol>
@@ -155,22 +149,22 @@ export function Bootcamp() {
         </div>
 
         <section
-          className="activities__schedule"
+          className="bootcamp__schedule"
           aria-labelledby="bootcamp-schedule-title"
         >
-          <header className="activities__scheduleHeader">
+          <header className="bootcamp__scheduleHeader">
             <h3 id="bootcamp-schedule-title">부트캠프 요일 안내</h3>
             <p>요일별로 운영되는 부트캠프 강좌를 확인해보세요.</p>
           </header>
 
-          <div className="activities__scheduleGrid">
+          <div className="bootcamp__scheduleGrid">
             {scheduleDays.map(({ day, englishName }) => {
               const scheduledBootcamps = bootcamps.filter((bootcamp) =>
                 bootcamp.day.includes(day),
               )
 
               return (
-                <article className="activities__dayCard" key={day}>
+                <article className="bootcamp__dayCard" key={day}>
                   <header>
                     <h4>{day}</h4>
                     <span>{englishName}</span>
@@ -180,7 +174,7 @@ export function Bootcamp() {
                       <li key={`${day}-${bootcamp.slug}`}>
                         <strong>{bootcamp.name}</strong>
                         <span
-                          className={`activities__level activities__level--${bootcamp.level}`}
+                          className={`bootcamp__level bootcamp__level--${bootcamp.level}`}
                         >
                           {bootcamp.level}
                         </span>
@@ -236,34 +230,34 @@ export function Bootcamp() {
         }
 
 
-        .activities {
-          --activities-ink: #11171c;
-          --activities-slate: #62696d;
-          --activities-muted: #959b9e;
-          --activities-line: #d8dbd9;
-          --activities-paper: #f5f5f2;
-          --activities-soft: #eeeeeb;
-          --activities-dark: #111619;
-          --activities-dark-text: #f5f5f2;
+        .bootcamp {
+          --bootcamp-ink: #11171c;
+          --bootcamp-slate: #62696d;
+          --bootcamp-muted: #959b9e;
+          --bootcamp-line: #d8dbd9;
+          --bootcamp-paper: #f5f5f2;
+          --bootcamp-soft: #eeeeeb;
+          --bootcamp-dark: #111619;
+          --bootcamp-dark-text: #f5f5f2;
 
           box-sizing: border-box;
           min-height: 100vh;
           min-height: 100svh;
           margin: 0;
           padding: clamp(2.5rem, 5vh, 4rem) 0 clamp(4rem, 7vh, 6rem);
-          border-top: 4px solid var(--activities-ink);
-          background: var(--activities-paper);
-          color: var(--activities-ink);
+          border-top: 4px solid var(--bootcamp-ink);
+          background: var(--bootcamp-paper);
+          color: var(--bootcamp-ink);
           font-family: var(--font-site);
         }
 
-        .activities *,
-        .activities *::before,
-        .activities *::after {
+        .bootcamp *,
+        .bootcamp *::before,
+        .bootcamp *::after {
           box-sizing: border-box;
         }
 
-        .activities__inner {
+        .bootcamp__inner {
           width: min(
             calc(100% - var(--page-gutter) * 2),
             var(--content-max)
@@ -271,13 +265,13 @@ export function Bootcamp() {
           margin: 0 auto;
         }
 
-        .activities__masthead {
+        .bootcamp__masthead {
           padding-bottom: clamp(2.5rem, 4.5vh, 3.5rem);
-          border-bottom: 1px solid var(--activities-line);
+          border-bottom: 1px solid var(--bootcamp-line);
         }
 
-        .activities__sample figcaption,
-        .activities__curriculumHeader {
+        .bootcamp__sample figcaption,
+        .bootcamp__curriculumHeader {
           font-family: var(--font-site);
           font-size: clamp(0.625rem, 0.55rem + 0.15vw, 0.75rem);
           font-weight: 700;
@@ -285,7 +279,7 @@ export function Bootcamp() {
           letter-spacing: 0.15em;
         }
 
-        .activities__title {
+        .bootcamp__title {
           margin: 0;
           font-size: clamp(4rem, 4.5vw, 5.5rem);
           font-weight: 750;
@@ -294,26 +288,26 @@ export function Bootcamp() {
           word-break: keep-all;
         }
 
-        .activities__title > span {
+        .bootcamp__title > span {
           display: block;
         }
 
-        .activities__title > span.scroll-highlight-wrapper {
+        .bootcamp__title > span.scroll-highlight-wrapper {
           display: inline-block;
           width: fit-content;
         }
 
-        .activities__titleLine {
+        .bootcamp__titleLine {
           white-space: nowrap;
         }
 
-        .activities__title em {
+        .bootcamp__title em {
           color: #03045e;
           font-style: normal;
         }
 
 
-        .activities__catalog {
+        .bootcamp__catalog {
           display: grid;
           grid-template-columns: clamp(18rem, 22vw, 24rem) minmax(0, 1fr);
           gap: clamp(3rem, 4vw, 5rem);
@@ -321,13 +315,13 @@ export function Bootcamp() {
         }
 
 
-        .activities__tabs {
+        .bootcamp__tabs {
           margin: 0;
           padding: 0;
-          border-bottom: 1px solid var(--activities-line);
+          border-bottom: 1px solid var(--bootcamp-line);
           list-style: none;
         }
-        .activities__tab {
+        .bootcamp__tab {
           position: relative;
           display: grid;
           grid-template-columns: 3.25rem minmax(0, 1fr) 0.5rem;
@@ -338,52 +332,52 @@ export function Bootcamp() {
           padding: 0 clamp(1rem, 1.3vw, 1.375rem);
           border: 0;
           background: transparent;
-          color: var(--activities-slate);
+          color: var(--bootcamp-slate);
           font: inherit;
           text-align: left;
           cursor: pointer;
           transition: background-color 160ms ease, color 160ms ease;
         }
 
-        .activities__tab::before {
+        .bootcamp__tab::before {
           position: absolute;
           inset: 0 auto 0 0;
           width: 4px;
-          background: var(--activities-ink);
+          background: var(--bootcamp-ink);
           content: "";
           opacity: 0;
           transition: opacity 160ms ease;
         }
 
-        .activities__tab:hover {
-          background: var(--activities-soft);
+        .bootcamp__tab:hover {
+          background: var(--bootcamp-soft);
         }
 
-        .activities__tab:focus-visible {
-          outline: 2px solid var(--activities-ink);
+        .bootcamp__tab:focus-visible {
+          outline: 2px solid var(--bootcamp-ink);
           outline-offset: -2px;
         }
 
-        .activities__tab.is-active {
-          background: var(--activities-ink);
-          color: var(--activities-dark-text);
+        .bootcamp__tab.is-active {
+          background: var(--bootcamp-ink);
+          color: var(--bootcamp-dark-text);
         }
 
-        .activities__tab.is-active::before {
+        .bootcamp__tab.is-active::before {
           opacity: 1;
         }
 
-        .activities__tabNumber {
+        .bootcamp__tabNumber {
           position: relative;
           isolation: isolate;
           z-index: 0;
           transition: color 0.3s ease 0.15s;
-          color: var(--activities-muted);
+          color: var(--bootcamp-muted);
           font-family: var(--font-site);
           font-size: clamp(0.6875rem, 0.62vw, 0.8125rem);
           letter-spacing: 0.07em;
         }
-        .activities__tabNumber::after {
+        .bootcamp__tabNumber::after {
           content: "";
           position: absolute;
           top: 50%;
@@ -405,23 +399,23 @@ export function Bootcamp() {
         transform 0.7s cubic-bezier(0.175,0.885,0.32,1.275),
         opacity 0.4s ease;
       }
-        .activities__tab:hover .activities__tabNumber::after{
+        .bootcamp__tab:hover .bootcamp__tabNumber::after{
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
         }
-        .activities__tab:hover .activities__tabNumber {
-          color: var(--activities-ink);
+        .bootcamp__tab:hover .bootcamp__tabNumber {
+          color: var(--bootcamp-ink);
         }
-        .activities__tab:hover .activities__tabName {
-          color: var(--activities-ink);
+        .bootcamp__tab:hover .bootcamp__tabName {
+          color: var(--bootcamp-ink);
           transition: color 0.3s ease 0.15s;
         }
 
-        .activities__tab.is-active .activities__tabNumber {
-          color: var(--activities-dark-text);
+        .bootcamp__tab.is-active .bootcamp__tabNumber {
+          color: var(--bootcamp-dark-text);
         }
 
-        .activities__tabName {
+        .bootcamp__tabName {
           overflow: hidden;
           font-size: clamp(1rem, 1vw, 1.25rem);
           font-weight: 560;
@@ -430,77 +424,77 @@ export function Bootcamp() {
           white-space: nowrap;
         }
 
-        .activities__tab.is-active .activities__tabName {
-          color: var(--activities-dark-text);
+        .bootcamp__tab.is-active .bootcamp__tabName {
+          color: var(--bootcamp-dark-text);
           font-weight: 700;
         }
 
-        .activities__availability,
-        .activities__legend > span {
+        .bootcamp__availability,
+        .bootcamp__legend > span {
           width: 0.375rem;
           height: 0.375rem;
-          background: var(--activities-muted);
+          background: var(--bootcamp-muted);
         }
 
-        .activities__tab.is-active .activities__availability {
+        .bootcamp__tab.is-active .bootcamp__availability {
           width: 0.5rem;
           height: 0.5rem;
-          background: var(--activities-dark-text);
+          background: var(--bootcamp-dark-text);
         }
 
-        .activities__legend {
+        .bootcamp__legend {
           display: flex;
           align-items: center;
           gap: 0.5rem;
           margin: 1rem 0 0 0.75rem;
-          color: var(--activities-muted);
+          color: var(--bootcamp-muted);
           font-size: clamp(0.6875rem, 0.65vw, 0.8125rem);
           line-height: 1;
         }
 
-        .activities__panel {
+        .bootcamp__panel {
           height: clamp(34rem, 68vh, 46rem);
           height: clamp(34rem, 68svh, 46rem);
           min-width: 0;
           overflow-y: auto;
           overscroll-behavior-y: contain;
-          scrollbar-color: var(--activities-muted) transparent;
+          scrollbar-color: var(--bootcamp-muted) transparent;
           scrollbar-gutter: stable;
           scrollbar-width: thin;
         }
 
-        .activities__panel::-webkit-scrollbar {
+        .bootcamp__panel::-webkit-scrollbar {
           width: 6px;
         }
 
-        .activities__panel::-webkit-scrollbar-track {
+        .bootcamp__panel::-webkit-scrollbar-track {
           background: transparent;
         }
 
-        .activities__panel::-webkit-scrollbar-thumb {
+        .bootcamp__panel::-webkit-scrollbar-thumb {
           border-radius: 999px;
-          background: var(--activities-slate);
+          background: var(--bootcamp-slate);
         }
 
-        .activities__panel:focus-visible {
-          outline: 2px solid var(--activities-ink);
+        .bootcamp__panel:focus-visible {
+          outline: 2px solid var(--bootcamp-ink);
           outline-offset: 3px;
         }
 
-        .activities__panelHeader {
+        .bootcamp__panelHeader {
           display: grid;
           grid-template-columns: minmax(0, 1fr) auto;
           gap: 2rem;
           min-height: clamp(10rem, 10vw, 12rem);
         }
 
-        .activities__nameLine {
+        .bootcamp__nameLine {
           display: flex;
           align-items: center;
           gap: 0.75rem;
         }
 
-        .activities__nameLine h3 {
+        .bootcamp__nameLine h3 {
           margin: 0;
           font-family: var(--font-site);
           font-size: clamp(3.25rem, 4.2vw, 4.75rem);
@@ -509,7 +503,7 @@ export function Bootcamp() {
           letter-spacing: -0.035em;
         }
 
-        .activities__nameLine > span {
+        .bootcamp__nameLine > span {
           padding: 0.375rem 0.625rem 0.3125rem;
           border-radius: 2px;
           background: #0077b6;
@@ -519,9 +513,9 @@ export function Bootcamp() {
           line-height: 1;
         }
 
-        .activities__headline {
+        .bootcamp__headline {
           margin: 1.125rem 0 0;
-          color: var(--activities-slate);
+          color: var(--bootcamp-slate);
           font-size: clamp(1.75rem, 2vw, 2.5rem);
           font-weight: 650;
           line-height: 1.25;
@@ -529,7 +523,7 @@ export function Bootcamp() {
           word-break: keep-all;
         }
 
-        .activities__count {
+        .bootcamp__count {
           margin: 0.25rem 0 0;
           font-family: var(--font-site);
           font-size: clamp(1.5rem, 1.5vw, 2rem);
@@ -537,29 +531,29 @@ export function Bootcamp() {
           letter-spacing: -0.04em;
         }
 
-        .activities__count span {
-          color: var(--activities-muted);
+        .bootcamp__count span {
+          color: var(--bootcamp-muted);
           font-size: 0.8125rem;
         }
 
-        .activities__sample {
+        .bootcamp__sample {
           min-height: clamp(12rem, 11vw, 14rem);
           margin: 0 0 clamp(2rem, 3vw, 3rem);
           padding: clamp(1.75rem, 2vw, 2.25rem);
           overflow: hidden;
           border-radius: 6px;
           border: 1px solid #252b2e;
-          background: var(--activities-dark);
-          color: var(--activities-dark-text);
+          background: var(--bootcamp-dark);
+          color: var(--bootcamp-dark-text);
         }
 
-        .activities__sample figcaption {
+        .bootcamp__sample figcaption {
           margin: 0 0 clamp(1.25rem, 1.5vw, 1.75rem);
-          color: var(--activities-muted);
+          color: var(--bootcamp-muted);
           font-size: clamp(0.75rem, 0.68rem + 0.1vw, 0.875rem);
         }
 
-        .activities__sample pre {
+        .bootcamp__sample pre {
           margin: 0;
           overflow-x: auto;
           font-family: var(--font-site);
@@ -568,70 +562,70 @@ export function Bootcamp() {
           tab-size: 2;
         }
 
-        .activities__sample code {
+        .bootcamp__sample code {
           font: inherit;
         }
 
-        .activities__curriculumHeader {
+        .bootcamp__curriculumHeader {
           display: flex;
           align-items: center;
           justify-content: space-between;
           padding-bottom: 1.25rem;
-          border-bottom: 1px solid var(--activities-line);
-          color: var(--activities-muted);
+          border-bottom: 1px solid var(--bootcamp-line);
+          color: var(--bootcamp-muted);
           font-size: clamp(0.875rem, 0.78rem + 0.12vw, 1rem);
         }
 
-        .activities__curriculumHeader h4,
-        .activities__curriculumHeader p {
+        .bootcamp__curriculumHeader h4,
+        .bootcamp__curriculumHeader p {
           margin: 0;
           font: inherit;
         }
 
-        .activities__curriculum ol {
+        .bootcamp__curriculum ol {
           margin: 0;
           padding: 0;
           list-style: none;
         }
 
-        .activities__curriculum li {
+        .bootcamp__curriculum li {
           display: grid;
           grid-template-columns: 5.5rem minmax(14rem, 0.9fr) minmax(0, 1fr);
           gap: 1rem;
           align-items: center;
           min-height: clamp(5rem, 4.6vw, 6rem);
-          border-bottom: 1px solid var(--activities-line);
+          border-bottom: 1px solid var(--bootcamp-line);
           font-size: clamp(1.125rem, 1.1vw, 1.375rem);
         }
 
-        .activities__curriculum strong {
+        .bootcamp__curriculum strong {
           font-weight: 650;
         }
 
-        .activities__period {
-          color: var(--activities-muted);
+        .bootcamp__period {
+          color: var(--bootcamp-muted);
           font-family: var(--font-site);
           font-size: clamp(0.8125rem, 0.72rem + 0.1vw, 0.9375rem);
           letter-spacing: 0.08em;
         }
 
-        .activities__outcome {
-          color: var(--activities-muted);
+        .bootcamp__outcome {
+          color: var(--bootcamp-muted);
           font-size: clamp(0.9375rem, 0.9vw, 1.0625rem);
           white-space: nowrap;
         }
 
-        .activities__schedule {
+        .bootcamp__schedule {
           margin-top: clamp(6rem, 11vw, 10rem);
           padding-top: clamp(4rem, 7vw, 6rem);
-          border-top: 1px solid var(--activities-line);
+          border-top: 1px solid var(--bootcamp-line);
         }
 
-        .activities__scheduleHeader {
+        .bootcamp__scheduleHeader {
           margin-bottom: clamp(2.5rem, 4vw, 4rem);
         }
 
-        .activities__scheduleHeader h3 {
+        .bootcamp__scheduleHeader h3 {
           margin: 0;
           font-size: clamp(2.75rem, 4vw, 4.75rem);
           font-weight: 650;
@@ -640,50 +634,50 @@ export function Bootcamp() {
           word-break: keep-all;
         }
 
-        .activities__scheduleHeader p {
+        .bootcamp__scheduleHeader p {
           margin: 1.25rem 0 0;
-          color: var(--activities-slate);
+          color: var(--bootcamp-slate);
           font-size: clamp(1rem, 1.25vw, 1.375rem);
           line-height: 1.5;
           word-break: keep-all;
         }
 
-        .activities__scheduleGrid {
+        .bootcamp__scheduleGrid {
           display: grid;
           grid-template-columns: repeat(5, minmax(0, 1fr));
           gap: clamp(0.75rem, 1.25vw, 1.5rem);
         }
 
-        .activities__dayCard {
+        .bootcamp__dayCard {
           min-width: 0;
           min-height: clamp(22rem, 29vw, 29rem);
           padding: clamp(1.5rem, 2vw, 2.25rem);
-          border: 1px solid var(--activities-line);
+          border: 1px solid var(--bootcamp-line);
           border-radius: 10px;
           background: rgba(255, 255, 255, 0.3);
         }
 
-        .activities__dayCard > header {
+        .bootcamp__dayCard > header {
           padding-bottom: 1.75rem;
-          border-bottom: 1px solid var(--activities-line);
+          border-bottom: 1px solid var(--bootcamp-line);
         }
 
-        .activities__dayCard h4 {
+        .bootcamp__dayCard h4 {
           margin: 0;
           font-size: clamp(2.25rem, 2.8vw, 3.25rem);
           font-weight: 650;
           line-height: 1;
         }
 
-        .activities__dayCard header span {
+        .bootcamp__dayCard header span {
           display: block;
           margin-top: 0.75rem;
-          color: var(--activities-slate);
+          color: var(--bootcamp-slate);
           font-size: 0.8125rem;
           letter-spacing: 0.25em;
         }
 
-        .activities__dayCard ul {
+        .bootcamp__dayCard ul {
           display: grid;
           gap: 1.5rem;
           margin: 0;
@@ -691,14 +685,14 @@ export function Bootcamp() {
           list-style: none;
         }
 
-        .activities__dayCard li {
+        .bootcamp__dayCard li {
           display: flex;
           gap: 0.75rem;
           align-items: center;
           justify-content: space-between;
         }
 
-        .activities__dayCard li strong {
+        .bootcamp__dayCard li strong {
           min-width: 0;
           font-size: clamp(1rem, 1.25vw, 1.375rem);
           font-weight: 560;
@@ -706,7 +700,7 @@ export function Bootcamp() {
           word-break: keep-all;
         }
 
-        .activities__level {
+        .bootcamp__level {
           flex: 0 0 auto;
           padding: 0.35rem 0.7rem 0.3rem;
           border-radius: 999px;
@@ -715,88 +709,88 @@ export function Bootcamp() {
           line-height: 1;
         }
 
-        .activities__level--기초 {
-          background: var(--activities-soft);
-          color: var(--activities-ink);
+        .bootcamp__level--기초 {
+          background: var(--bootcamp-soft);
+          color: var(--bootcamp-ink);
         }
 
-        .activities__level--심화 {
-          background: var(--activities-dark);
-          color: var(--activities-dark-text);
+        .bootcamp__level--심화 {
+          background: var(--bootcamp-dark);
+          color: var(--bootcamp-dark-text);
         }
 
         @media (max-width: 68.75rem) {
-          .activities__title {
+          .bootcamp__title {
             font-size: clamp(3.5rem, 6vw, 4.25rem);
           }
 
-          .activities__catalog {
+          .bootcamp__catalog {
             grid-template-columns: 16rem minmax(0, 1fr);
             gap: 2rem;
           }
 
-          .activities__tab {
+          .bootcamp__tab {
             height: 4.25rem;
           }
 
-          .activities__panelHeader {
+          .bootcamp__panelHeader {
             min-height: 9.5rem;
           }
 
-          .activities__panel {
+          .bootcamp__panel {
             height: clamp(28rem, 70vh, 36rem);
             height: clamp(28rem, 70svh, 36rem);
           }
 
-          .activities__sample {
+          .bootcamp__sample {
             min-height: 10rem;
           }
 
-          .activities__curriculum li {
+          .bootcamp__curriculum li {
             grid-template-columns: 4.5rem minmax(0, 1fr) auto;
           }
 
-          .activities__scheduleGrid {
+          .bootcamp__scheduleGrid {
             grid-template-columns: repeat(3, minmax(0, 1fr));
           }
 
-          .activities__dayCard {
+          .bootcamp__dayCard {
             min-height: 21rem;
           }
         }
 
         @media (max-width: 45rem) {
-          .activities {
+          .bootcamp {
             padding-top: 2rem;
             padding-bottom: 3rem;
           }
 
-          .activities__masthead {
+          .bootcamp__masthead {
             padding-bottom: 2rem;
           }
 
-          .activities__title {
+          .bootcamp__title {
             font-size: clamp(2.5rem, 10.5vw, 3.375rem);
           }
 
-          .activities__titleLine {
+          .bootcamp__titleLine {
             white-space: normal;
           }
 
-          .activities__introduction {
+          .bootcamp__introduction {
             font-size: 0.875rem;
           }
 
-          .activities__catalog {
+          .bootcamp__catalog {
             display: block;
             padding-top: 1.75rem;
           }
 
-          .activities__directory {
+          .bootcamp__directory {
             margin-bottom: 2.25rem;
           }
 
-          .activities__tabs {
+          .bootcamp__tabs {
             display: flex;
             gap: 0.5rem;
             overflow-x: auto;
@@ -805,58 +799,58 @@ export function Bootcamp() {
             scrollbar-width: none;
           }
 
-          .activities__tabs::-webkit-scrollbar {
+          .bootcamp__tabs::-webkit-scrollbar {
             display: none;
           }
 
-          .activities__tabs li {
+          .bootcamp__tabs li {
             flex: 0 0 auto;
           }
 
-          .activities__tab {
+          .bootcamp__tab {
             display: flex;
             gap: 0.5rem;
             width: auto;
             height: 2.75rem;
             padding: 0 0.875rem;
-            border: 1px solid var(--activities-line);
+            border: 1px solid var(--bootcamp-line);
           }
 
-          .activities__tab::before,
-          .activities__availability,
-          .activities__legend {
+          .bootcamp__tab::before,
+          .bootcamp__availability,
+          .bootcamp__legend {
             display: none;
           }
 
-          .activities__tab.is-active {
-            border-color: var(--activities-ink);
-            background: var(--activities-ink);
-            color: var(--activities-dark-text);
+          .bootcamp__tab.is-active {
+            border-color: var(--bootcamp-ink);
+            background: var(--bootcamp-ink);
+            color: var(--bootcamp-dark-text);
           }
 
-          .activities__panelHeader {
+          .bootcamp__panelHeader {
             min-height: 9.5rem;
           }
 
-          .activities__headline {
+          .bootcamp__headline {
             font-size: 1.5rem;
           }
 
-          .activities__sample {
+          .bootcamp__sample {
             min-height: 9.5rem;
             padding: 1.125rem;
           }
 
-          .activities__schedule {
+          .bootcamp__schedule {
             margin-top: 5rem;
             padding-top: 3.5rem;
           }
 
-          .activities__scheduleHeader h3 {
+          .bootcamp__scheduleHeader h3 {
             font-size: clamp(2.25rem, 10vw, 3.25rem);
           }
 
-          .activities__scheduleGrid {
+          .bootcamp__scheduleGrid {
             grid-template-columns: none;
             grid-auto-columns: minmax(15rem, 82vw);
             grid-auto-flow: column;
@@ -866,41 +860,41 @@ export function Bootcamp() {
             scrollbar-width: thin;
           }
 
-          .activities__dayCard {
+          .bootcamp__dayCard {
             min-height: 20rem;
             scroll-snap-align: start;
           }
         }
 
         @media (max-width: 28.75rem) {
-          .activities__title {
+          .bootcamp__title {
             font-size: clamp(2.25rem, 11vw, 2.875rem);
           }
 
-          .activities__nameLine h3 {
+          .bootcamp__nameLine h3 {
             font-size: 2.5rem;
           }
 
-          .activities__count {
+          .bootcamp__count {
             font-size: 0.875rem;
           }
 
-          .activities__sample pre {
+          .bootcamp__sample pre {
             font-size: 0.8125rem;
           }
 
-          .activities__curriculum li {
+          .bootcamp__curriculum li {
             grid-template-columns: 4.25rem minmax(0, 1fr);
             min-height: 4rem;
           }
 
-          .activities__outcome {
+          .bootcamp__outcome {
             grid-column: 2;
           }
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .activities__tab {
+          .bootcamp__tab {
             transition: none;
           }
         }
