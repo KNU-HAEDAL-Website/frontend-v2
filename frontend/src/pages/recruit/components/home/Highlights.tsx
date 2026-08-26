@@ -60,9 +60,7 @@ function HighlightCard({
           <time>{item.date}</time>
         </div>
 
-        <span className="highlights-card-arrow">
-          <ArrowIcon />
-        </span>
+        <span className="highlights-card-arrow">{/*<ArrowIcon />*/}</span>
       </div>
     </>
   )
@@ -95,6 +93,11 @@ export function Highlights() {
   const [featured, ...secondary] = highlights
 
   useEffect(() => {
+    // 인스타그램 임베딩 캡션 제거용도
+    document.querySelectorAll('blockquote.instagram-media').forEach((el) => {
+      el.removeAttribute('data-instgrm-captioned')
+    })
+
     const existingScript = document.querySelector(
       'script[src="//www.instagram.com/embed.js"]',
     )
@@ -136,7 +139,7 @@ export function Highlights() {
                 <span> 하이라이트</span>
               </h2>
 
-              <p>해달의 순간들을 사진과 기록으로 확인해보세요.</p>
+              {/*<p>해달의 순간들.</p>*/}
             </div>
 
             <a
@@ -167,10 +170,11 @@ export function Highlights() {
               className="highlights-instagram"
               aria-label={`${instagram.username} Instagram 게시물`}
             >
-              <div className="highlights-instagram-label">
-                <span>Instagram</span>
-                <span>{instagram.username}</span>
-              </div>
+              {/* 이거 좀 이상함 지울거임*/}
+              {/*<div className="highlights-instagram-label">*/}
+              {/*  <span>Instagram</span>*/}
+              {/*  <span>{instagram.username}</span>*/}
+              {/*</div>*/}
 
               <div className="highlights-instagram-embed">
                 <blockquote
@@ -231,7 +235,7 @@ export function Highlights() {
         }
 
         .highlights-heading h2 span {
-          color: #555b5e;
+          color: #03045e;
         }
 
         .highlights-title-break {
@@ -358,7 +362,7 @@ export function Highlights() {
           height: 100%;
 
           object-fit: cover;
-          filter: grayscale(1);
+          // filter: grayscale(1);
 
           transition:
             transform 450ms cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -470,7 +474,7 @@ export function Highlights() {
 
           background: #ffffff;
 
-          filter: grayscale(1);
+          // filter: grayscale(1);
         }
 
         /*
