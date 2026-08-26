@@ -1,2 +1,4 @@
 cd "$(git rev-parse --show-toplevel)/frontend"
+
 pnpm exec lint-staged
+pnpm run tsc

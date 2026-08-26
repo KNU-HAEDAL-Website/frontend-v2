@@ -10,15 +10,14 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "tsc": "tsc -p tsconfig.json --noEmit",
+    "tsc": "tsc -b --noEmit",
     "swagger-typescript-api": "swagger-typescript-api -p https://www.knu-haedal.com/api/v3/api-docs -r -o ./src/models --modular -d --extract-request-body --extract-response-body --extract-response-error --axios",
     "prepare": "cd .. && husky frontend/.husky"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "npm run format",
-      "npm run lint:fix",
-      "npm run tsc"
+      "prettier --write",
+      "eslint --fix"
     ]
   },
   "dependencies": {
