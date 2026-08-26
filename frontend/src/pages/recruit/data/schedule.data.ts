@@ -1,170 +1,60 @@
-export type ScheduleCategory =
-  | 'bootcamp'
-  | 'track'
-  | 'project'
-  | 'event'
-  | 'etc'
-
-export interface ScheduleEvent {
-  id: string
-  title: string
-
+export interface ScheduleDate {
   year: number
   month: number
   day: number
+}
 
+export interface ScheduleEvent extends ScheduleDate {
+  id: string
+  title: string
   time?: string
-  endDate?: string
-
-  category: ScheduleCategory
+  end?: ScheduleDate
 }
-
-export interface ScheduleCategoryInfo {
-  id: ScheduleCategory
-  label: string
-}
-
-export const scheduleCategories: ScheduleCategoryInfo[] = [
-  {
-    id: 'bootcamp',
-    label: '부트캠프',
-  },
-  {
-    id: 'track',
-    label: '트랙',
-  },
-  {
-    id: 'project',
-    label: '프로젝트',
-  },
-  {
-    id: 'event',
-    label: '해커톤 / 행사',
-  },
-  {
-    id: 'etc',
-    label: '기타',
-  },
-]
 
 export const scheduleEvents: ScheduleEvent[] = [
   {
-    id: 'data-track-0903',
-    title: '데이터연구회',
+    id: 'join-1',
+    title: '서류접수',
+    year: 2026,
+    month: 8,
+    day: 27,
+    end: {
+      year: 2026,
+      month: 9,
+      day: 3,
+    },
+  },
+  {
+    id: 'join-3',
+    title: '서류결과발표',
     year: 2026,
     month: 9,
-    day: 3,
-    time: '19:00',
-    category: 'track',
+    day: 4,
   },
-
   {
-    id: 'c-bootcamp-0905',
-    title: 'C 부트캠프 OT',
+    id: 'join-4',
+    title: '오프라인면접',
     year: 2026,
     month: 9,
     day: 5,
-    time: '17:00',
-    category: 'bootcamp',
+    end: {
+      year: 2026,
+      month: 9,
+      day: 8,
+    },
   },
-
   {
-    id: 'sql-track-0909',
-    title: 'SQL연구회',
+    id: 'join-6',
+    title: '최종발표',
     year: 2026,
     month: 9,
-    day: 9,
-    time: '19:00',
-    category: 'track',
+    day: 10,
   },
-
   {
-    id: 'embedded-track-0911',
-    title: '임베디드',
+    id: 'join-7',
+    title: '신규부원OT',
     year: 2026,
     month: 9,
     day: 11,
-    time: '18:00',
-    category: 'track',
-  },
-
-  {
-    id: 'frontend-bootcamp-0912',
-    title: 'Web Frontend 부트캠프',
-    year: 2026,
-    month: 9,
-    day: 12,
-    time: '17:00',
-    category: 'bootcamp',
-  },
-
-  {
-    id: 'data-track-0916',
-    title: '데이터연구회',
-    year: 2026,
-    month: 9,
-    day: 16,
-    time: '19:00',
-    category: 'track',
-  },
-
-  {
-    id: 'haedal-hackathon',
-    title: '해달 해커톤 아이디어 접수',
-    year: 2026,
-    month: 9,
-    day: 18,
-    endDate: '~ 9.20',
-    category: 'event',
-  },
-
-  {
-    id: 'sql-track-0923',
-    title: 'SQL연구회',
-    year: 2026,
-    month: 9,
-    day: 23,
-    time: '19:00',
-    category: 'track',
-  },
-
-  {
-    id: 'data-track-0924',
-    title: '데이터연구회',
-    year: 2026,
-    month: 9,
-    day: 24,
-    time: '19:00',
-    category: 'track',
-  },
-
-  {
-    id: 'flutter-bootcamp-0926',
-    title: '플러터 부트캠프',
-    year: 2026,
-    month: 9,
-    day: 26,
-    time: '17:00',
-    category: 'bootcamp',
-  },
-
-  {
-    id: 'embedded-track-0930',
-    title: '임베디드',
-    year: 2026,
-    month: 9,
-    day: 30,
-    time: '18:00',
-    category: 'track',
-  },
-
-  {
-    id: 'project-presentation-1004',
-    title: '프로젝트 발표',
-    year: 2026,
-    month: 10,
-    day: 4,
-    time: '10:00',
-    category: 'project',
   },
 ]

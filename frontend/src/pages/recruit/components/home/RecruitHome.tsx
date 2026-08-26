@@ -224,9 +224,9 @@ export const RecruitHome = () => {
         <ScrollReveal direction="right">
           <Activities />
         </ScrollReveal>
-        {/*<ScrollReveal direction="scale">*/}
-        {/*  <Projects />*/}
-        {/*</ScrollReveal>*/}
+        {/* <ScrollReveal direction="scale">
+          <Projects />
+        </ScrollReveal> */}
         <ScrollReveal direction="left">
           <Highlights />
         </ScrollReveal>

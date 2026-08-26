@@ -1,9 +1,8 @@
 import { useMemo, useState } from 'react'
 
 import {
-  type ScheduleCategory,
+  type ScheduleDate,
   type ScheduleEvent,
-  scheduleCategories,
   scheduleEvents,
 } from '../../data/schedule.data'
 
@@ -15,6 +14,13 @@ interface CalendarCell {
   day: number
 
   isCurrentMonth: boolean
+}
+
+interface EventSegment {
+  isRange: boolean
+  continuesBefore: boolean
+  continuesAfter: boolean
+  showLabel: boolean
 }
 
 const SCHEDULE_STYLES = `
@@ -214,85 +220,6 @@ const SCHEDULE_STYLES = `
   }
 
   /* ---------------------------------
-     CATEGORY FILTER
-  --------------------------------- */
-
-  .schedule-filter {
-    margin-top: clamp(3.5rem, 5vw, 5rem);
-  }
-
-  .schedule-filter__title {
-    margin: 0 0 1.25rem;
-
-    font-size: 0.85rem;
-    font-weight: 500;
-
-    color: var(--schedule-muted);
-  }
-
-  .schedule-filter__list {
-    display: flex;
-    flex-direction: column;
-
-    gap: 1rem;
-
-    margin: 0;
-    padding: 0;
-
-    list-style: none;
-  }
-
-  .schedule-filter__button {
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 0.85rem;
-
-    width: fit-content;
-
-    padding: 0;
-
-    border: 0;
-
-    background: none;
-    color: var(--schedule-ink);
-
-    font: inherit;
-    font-size: 0.92rem;
-    font-weight: 550;
-
-    cursor: pointer;
-  }
-
-  .schedule-filter__swatch {
-    width: 1.15rem;
-    height: 1.15rem;
-
-    border: 1px solid var(--schedule-line);
-
-    background: var(--schedule-category-color);
-
-    transition:
-      opacity 150ms ease,
-      transform 150ms ease;
-  }
-
-  .schedule-filter__button:hover
-    .schedule-filter__swatch {
-    transform: scale(0.85);
-  }
-
-  .schedule-filter__button--disabled {
-    color: var(--schedule-muted);
-  }
-
-  .schedule-filter__button--disabled
-    .schedule-filter__swatch {
-    opacity: 0.18;
-  }
-
-  /* ---------------------------------
      ALL SCHEDULE CTA
   --------------------------------- */
 
@@ -380,12 +307,14 @@ const SCHEDULE_STYLES = `
   }
 
   .calendar-day {
+    --calendar-cell-padding: clamp(0.8rem, 1vw, 1.1rem);
+
     position: relative;
 
     min-width: 0;
     min-height: clamp(9rem, 12vw, 12.5rem);
 
-    padding: clamp(0.8rem, 1vw, 1.1rem);
+    padding: var(--calendar-cell-padding);
 
     border-right: 1px solid var(--schedule-line);
     border-bottom: 1px solid var(--schedule-line);
@@ -418,40 +347,59 @@ const SCHEDULE_STYLES = `
   }
 
   .calendar-event {
-    --event-color: #111;
-
-    min-width: 0;
-  }
-
-  .calendar-event--compact {
     display: grid;
-
     grid-template-columns:
       0.48rem
       minmax(0, 1fr);
-
     column-gap: 0.55rem;
-
     align-items: baseline;
+    min-width: 0;
   }
 
-  .calendar-event--compact::before {
+  .calendar-event::before {
     content: "";
-
     width: 0.48rem;
     height: 0.48rem;
-
     margin-top: 0.1rem;
-
     border-radius: 50%;
-
-    background: var(--event-color);
+    background: var(--schedule-ink);
   }
 
-  .calendar-event--card {
-    padding: 0.75rem 0.8rem;
+  .calendar-event--range {
+    position: relative;
+    z-index: 1;
 
-    background: var(--event-color);
+    display: flex;
+    align-items: center;
+
+    min-height: 1.85rem;
+    padding: 0.3rem 0.65rem;
+
+    border-radius: 0.3rem;
+    background: #03045e;
+    color: #ffffff;
+  }
+
+  .calendar-event--range::before {
+    content: none;
+  }
+
+  .calendar-event--continues-before {
+    margin-left: calc(0px - var(--calendar-cell-padding) - 1px);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .calendar-event--continues-after {
+    margin-right: calc(0px - var(--calendar-cell-padding) - 1px);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .calendar-event--range .calendar-event__title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .calendar-event__title {
@@ -470,6 +418,7 @@ const SCHEDULE_STYLES = `
 
   .calendar-event__time {
     display: block;
+    grid-column: 2;
 
     margin-top: 0.25rem;
 
@@ -482,43 +431,6 @@ const SCHEDULE_STYLES = `
     font-size: clamp(0.66rem, 0.68vw, 0.77rem);
 
     line-height: 1.45;
-  }
-
-  .calendar-event--compact
-    .calendar-event__time {
-    grid-column: 2;
-  }
-
-  /* ---------------------------------
-     CATEGORY COLORS
-  --------------------------------- */
-
-  .schedule {
-    --category-bootcamp: #11171c;
-    --category-track: #666b6d;
-    --category-project: #a2a6a6;
-    --category-event: #dedfdd;
-    --category-etc: #ffffff;
-  }
-
-  .calendar-event--bootcamp {
-    --event-color: #eeeeec;
-  }
-
-  .calendar-event--track {
-    --event-color: #686d6f;
-  }
-
-  .calendar-event--project {
-    --event-color: #eeeeec;
-  }
-
-  .calendar-event--event {
-    --event-color: #eeeeec;
-  }
-
-  .calendar-event--etc {
-    --event-color: #eeeeec;
   }
 
   /* ---------------------------------
@@ -562,10 +474,6 @@ const SCHEDULE_STYLES = `
 
     .schedule-nav {
       margin-top: 0;
-    }
-
-    .schedule-filter {
-      margin-top: 2.5rem;
     }
 
     .schedule-sidebar__all {
@@ -701,25 +609,62 @@ function createCalendarCells(year: number, month: number): CalendarCell[] {
   return cells
 }
 
-function getCategoryVariable(category: ScheduleCategory) {
-  return `var(--category-${category})`
+function getDateValue(date: ScheduleDate) {
+  return date.year * 10_000 + date.month * 100 + date.day
 }
 
-function isCardEvent(event: ScheduleEvent) {
-  return (
-    event.category === 'bootcamp' ||
-    event.category === 'project' ||
-    event.category === 'event'
-  )
+function isEventOnDate(event: ScheduleEvent, date: ScheduleDate) {
+  const dateValue = getDateValue(date)
+  const startValue = getDateValue(event)
+  const endValue = getDateValue(event.end ?? event)
+
+  return dateValue >= startValue && dateValue <= endValue
+}
+
+function getEventSegment(
+  event: ScheduleEvent,
+  cell: CalendarCell,
+  cellIndex: number,
+): EventSegment {
+  if (!event.end) {
+    return {
+      isRange: false,
+      continuesBefore: false,
+      continuesAfter: false,
+      showLabel: true,
+    }
+  }
+
+  const cellValue = getDateValue(cell)
+  const startValue = getDateValue(event)
+  const endValue = getDateValue(event.end)
+  const isFirstColumn = cellIndex % 7 === 0
+  const isLastColumn = cellIndex % 7 === 6
+  const continuesBefore = !isFirstColumn && cellValue > startValue
+  const continuesAfter = !isLastColumn && cellValue < endValue
+
+  return {
+    isRange: true,
+    continuesBefore,
+    continuesAfter,
+    showLabel: !continuesBefore,
+  }
+}
+
+function getEventClassName(segment: EventSegment) {
+  return [
+    'calendar-event',
+    segment.isRange ? 'calendar-event--range' : '',
+    segment.continuesBefore ? 'calendar-event--continues-before' : '',
+    segment.continuesAfter ? 'calendar-event--continues-after' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
 }
 
 function Schedule() {
   const [year, setYear] = useState(2026)
   const [month, setMonth] = useState(9)
-
-  const [enabledCategories, setEnabledCategories] = useState<
-    Set<ScheduleCategory>
-  >(new Set(scheduleCategories.map((category) => category.id)))
 
   const calendarCells = useMemo(
     () => createCalendarCells(year, month),
@@ -740,28 +685,8 @@ function Schedule() {
     setMonth(next.month)
   }
 
-  function toggleCategory(category: ScheduleCategory) {
-    setEnabledCategories((current) => {
-      const next = new Set(current)
-
-      if (next.has(category)) {
-        next.delete(category)
-      } else {
-        next.add(category)
-      }
-
-      return next
-    })
-  }
-
   function getEventsForDay(cell: CalendarCell) {
-    return scheduleEvents.filter(
-      (event) =>
-        event.year === cell.year &&
-        event.month === cell.month &&
-        event.day === cell.day &&
-        enabledCategories.has(event.category),
-    )
+    return scheduleEvents.filter((event) => isEventOnDate(event, cell))
   }
 
   return (
@@ -785,7 +710,7 @@ function Schedule() {
               <div className="schedule-sidebar__rule" aria-hidden="true" />
 
               <p className="schedule-sidebar__description">
-                해달의 모든 일정은
+                해달의 준회원 모집 일정은
                 <br />
                 여기에서 확인할 수 있습니다.
               </p>
@@ -809,52 +734,12 @@ function Schedule() {
               </button>
             </nav>
 
-            <div className="schedule-filter">
-              <p className="schedule-filter__title">카테고리</p>
-
-              <ul className="schedule-filter__list">
-                {scheduleCategories.map((category) => {
-                  const enabled = enabledCategories.has(category.id)
-
-                  return (
-                    <li key={category.id}>
-                      <button
-                        className={[
-                          'schedule-filter__button',
-                          !enabled ? 'schedule-filter__button--disabled' : '',
-                        ]
-                          .filter(Boolean)
-                          .join(' ')}
-                        type="button"
-                        onClick={() => toggleCategory(category.id)}
-                        aria-pressed={enabled}
-                      >
-                        <span
-                          className="schedule-filter__swatch"
-                          style={
-                            {
-                              '--schedule-category-color': getCategoryVariable(
-                                category.id,
-                              ),
-                            } as React.CSSProperties
-                          }
-                          aria-hidden="true"
-                        />
-
-                        {category.label}
-                      </button>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-
-            <a className="schedule-sidebar__all" href="#schedule">
-              전체 일정 보기
-              <span className="schedule-sidebar__all-arrow" aria-hidden="true">
-                →
-              </span>
-            </a>
+            {/*<a className="schedule-sidebar__all" href="#schedule">*/}
+            {/*  전체 일정 보기*/}
+            {/*  <span className="schedule-sidebar__all-arrow" aria-hidden="true">*/}
+            {/*    →*/}
+            {/*  </span>*/}
+            {/*</a>*/}
           </aside>
 
           {/* -------------------------
@@ -902,26 +787,23 @@ function Schedule() {
 
                       <div className="calendar-day__events">
                         {events.map((event) => {
-                          const card = isCardEvent(event)
+                          const segment = getEventSegment(event, cell, index)
 
                           return (
                             <div
-                              className={[
-                                'calendar-event',
-                                card
-                                  ? 'calendar-event--card'
-                                  : 'calendar-event--compact',
-                                `calendar-event--${event.category}`,
-                              ].join(' ')}
+                              className={getEventClassName(segment)}
                               key={event.id}
+                              aria-hidden={segment.showLabel ? undefined : true}
                             >
-                              <span className="calendar-event__title">
-                                {event.title}
-                              </span>
+                              {segment.showLabel && (
+                                <span className="calendar-event__title">
+                                  {event.title}
+                                </span>
+                              )}
 
-                              {(event.time || event.endDate) && (
+                              {segment.showLabel && event.time && (
                                 <span className="calendar-event__time">
-                                  {event.time ?? event.endDate}
+                                  {event.time}
                                 </span>
                               )}
                             </div>
