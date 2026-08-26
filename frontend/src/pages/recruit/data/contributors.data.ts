@@ -5,7 +5,15 @@ export type Contributor = {
 }
 
 export const contributors: Contributor[] = [
-  { name: '최연우', github: 'pigmal24', role: '' },
+  { name: '김아진', github: 'ppochaco', role: '' },
+  { name: '김강민', github: 'Dobbymin', role: '' },
+  { name: '김민주', github: 'joojjang', role: '' },
+  { name: '정인준', github: 'jijun0129', role: '' },
+  { name: '박주영', github: 'juyounginpark', role: '' },
+  { name: '조대성', github: 'tfer2442', role: '' },
+  { name: '김승연', github: 'jumdo12', role: '' },
+  { name: '김찬우', github: 'blu3fishez', role: '' },
+  { name: '권용민', github: 'rnjs5540', role: '' },
   { name: '허진수', github: 'HJTN', role: '' },
   { name: '신학철', github: 'hak-fe', role: '' },
   { name: '임현우', github: 'noeyh100-coder', role: '' },
