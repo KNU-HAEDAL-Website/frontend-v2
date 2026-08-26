@@ -12,8 +12,9 @@ export function Contributors() {
       <div className="contributors__inner">
         <header className="contributors__header">
           <h2 id="contributors-title" className="contributors__title">
-            Contributors
+            메인테이너&컨트리뷰터
           </h2>
+          <a>웹사이트 개발에 기여한 사람들</a>
         </header>
 
         <div className="contributors__grid">
@@ -160,7 +161,7 @@ export function Contributors() {
           height: 100%;
           display: block;
           object-fit: cover;
-          filter: grayscale(1);
+          // filter: grayscale(1);
         }
 
         .contributors__avatarFallback {

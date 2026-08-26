@@ -567,7 +567,9 @@ export function Join() {
             clamp(1.8rem, 3.5vw, 3rem)
             clamp(1.8rem, 3.5vw, 3.5rem);
 
-          border: 1px solid #111111;
+          border: 1px solid #03045e;
+          background: #03045e;
+          color: #ffffff;
 
           display: flex;
           align-items: center;
@@ -596,7 +598,7 @@ export function Join() {
         .join__cta-description {
           margin: 0.8rem 0 0;
 
-          color: #444444;
+          color: rgba(255, 255, 255, 0.72);
 
           font-size: clamp(
             0.82rem,
@@ -626,8 +628,8 @@ export function Join() {
 
           padding: 0 2rem;
 
-          background: #111111;
-          color: #ffffff;
+          background: #ffffff;
+          color: #03045e;
 
           text-decoration: none;
 
@@ -646,10 +648,6 @@ export function Join() {
           font-weight: 700;
 
           letter-spacing: -0.025em;
-
-          transition:
-            background-color 180ms ease,
-            transform 180ms ease;
         }
 
         .join__cta-arrow {
@@ -657,10 +655,6 @@ export function Join() {
           font-weight: 300;
 
           transition: transform 180ms ease;
-        }
-
-        .join__cta-button:hover {
-          background: #292929;
         }
 
         .join__cta-button:hover
@@ -675,6 +669,10 @@ export function Join() {
         .join__faq-button:focus-visible {
           outline: 2px solid #111111;
           outline-offset: 4px;
+        }
+
+        .join__cta-button:focus-visible {
+          outline-color: #90e0ef;
         }
 
         /*
@@ -817,7 +815,6 @@ export function Join() {
          */
         @media (prefers-reduced-motion: reduce) {
           .join__faq-answer,
-          .join__cta-button,
           .join__cta-arrow {
             transition: none;
           }
