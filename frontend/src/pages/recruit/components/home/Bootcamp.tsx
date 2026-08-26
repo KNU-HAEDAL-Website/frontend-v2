@@ -1,12 +1,23 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { bootcamps } from '../../data/bootcamp.data'
+import { type BootcampDay, bootcamps } from '../../data/bootcamp.data'
+
+const scheduleDays: readonly {
+  day: BootcampDay
+  englishName: string
+}[] = [
+  { day: '월', englishName: 'MON' },
+  { day: '화', englishName: 'TUE' },
+  { day: '수', englishName: 'WED' },
+  { day: '목', englishName: 'THU' },
+  { day: '금', englishName: 'FRI' },
+]
 
 function formatIndex(index: number) {
   return String(index + 1).padStart(2, '0')
 }
 
-export function Activities() {
+export function Bootcamp() {
   const sectionRef = useRef<HTMLElement>(null)
   const [activeSlug, setActiveSlug] = useState(bootcamps[0].slug)
   const activeIndex = bootcamps.findIndex(
@@ -117,7 +128,7 @@ export function Activities() {
               className="activities__sample"
               aria-label={`${activeBootcamp.name} 예제 코드`}
             >
-              <figcaption>SAMPLE — {activeBootcamp.sampleLabel}</figcaption>
+              {/*<figcaption>SAMPLE — {activeBootcamp.sampleLabel}</figcaption>*/}
               <pre>
                 <code>{activeBootcamp.sample}</code>
               </pre>
@@ -142,6 +153,45 @@ export function Activities() {
             </section>
           </article>
         </div>
+
+        <section
+          className="activities__schedule"
+          aria-labelledby="bootcamp-schedule-title"
+        >
+          <header className="activities__scheduleHeader">
+            <h3 id="bootcamp-schedule-title">부트캠프 요일 안내</h3>
+            <p>요일별로 운영되는 부트캠프 강좌를 확인해보세요.</p>
+          </header>
+
+          <div className="activities__scheduleGrid">
+            {scheduleDays.map(({ day, englishName }) => {
+              const scheduledBootcamps = bootcamps.filter((bootcamp) =>
+                bootcamp.day.includes(day),
+              )
+
+              return (
+                <article className="activities__dayCard" key={day}>
+                  <header>
+                    <h4>{day}</h4>
+                    <span>{englishName}</span>
+                  </header>
+                  <ul>
+                    {scheduledBootcamps.map((bootcamp) => (
+                      <li key={`${day}-${bootcamp.slug}`}>
+                        <strong>{bootcamp.name}</strong>
+                        <span
+                          className={`activities__level activities__level--${bootcamp.level}`}
+                        >
+                          {bootcamp.level}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              )
+            })}
+          </div>
+        </section>
       </div>
 
       <style>{`
@@ -258,14 +308,14 @@ export function Activities() {
         }
 
         .activities__title em {
-          color: var(--activities-slate);
+          color: #03045e;
           font-style: normal;
         }
 
 
         .activities__catalog {
           display: grid;
-          grid-template-columns: clamp(24rem, 29vw, 32rem) minmax(0, 1fr);
+          grid-template-columns: clamp(18rem, 22vw, 24rem) minmax(0, 1fr);
           gap: clamp(3rem, 4vw, 5rem);
           padding-top: clamp(2.5rem, 4vh, 3.5rem);
         }
@@ -462,8 +512,8 @@ export function Activities() {
         .activities__nameLine > span {
           padding: 0.375rem 0.625rem 0.3125rem;
           border-radius: 2px;
-          background: var(--activities-soft);
-          color: var(--activities-slate);
+          background: #0077b6;
+          color: #caf0f8;
           font-size: clamp(0.8125rem, 0.72vw, 0.9375rem);
           font-weight: 700;
           line-height: 1;
@@ -568,6 +618,111 @@ export function Activities() {
         .activities__outcome {
           color: var(--activities-muted);
           font-size: clamp(0.9375rem, 0.9vw, 1.0625rem);
+          white-space: nowrap;
+        }
+
+        .activities__schedule {
+          margin-top: clamp(6rem, 11vw, 10rem);
+          padding-top: clamp(4rem, 7vw, 6rem);
+          border-top: 1px solid var(--activities-line);
+        }
+
+        .activities__scheduleHeader {
+          margin-bottom: clamp(2.5rem, 4vw, 4rem);
+        }
+
+        .activities__scheduleHeader h3 {
+          margin: 0;
+          font-size: clamp(2.75rem, 4vw, 4.75rem);
+          font-weight: 650;
+          line-height: 1.05;
+          letter-spacing: -0.055em;
+          word-break: keep-all;
+        }
+
+        .activities__scheduleHeader p {
+          margin: 1.25rem 0 0;
+          color: var(--activities-slate);
+          font-size: clamp(1rem, 1.25vw, 1.375rem);
+          line-height: 1.5;
+          word-break: keep-all;
+        }
+
+        .activities__scheduleGrid {
+          display: grid;
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+          gap: clamp(0.75rem, 1.25vw, 1.5rem);
+        }
+
+        .activities__dayCard {
+          min-width: 0;
+          min-height: clamp(22rem, 29vw, 29rem);
+          padding: clamp(1.5rem, 2vw, 2.25rem);
+          border: 1px solid var(--activities-line);
+          border-radius: 10px;
+          background: rgba(255, 255, 255, 0.3);
+        }
+
+        .activities__dayCard > header {
+          padding-bottom: 1.75rem;
+          border-bottom: 1px solid var(--activities-line);
+        }
+
+        .activities__dayCard h4 {
+          margin: 0;
+          font-size: clamp(2.25rem, 2.8vw, 3.25rem);
+          font-weight: 650;
+          line-height: 1;
+        }
+
+        .activities__dayCard header span {
+          display: block;
+          margin-top: 0.75rem;
+          color: var(--activities-slate);
+          font-size: 0.8125rem;
+          letter-spacing: 0.25em;
+        }
+
+        .activities__dayCard ul {
+          display: grid;
+          gap: 1.5rem;
+          margin: 0;
+          padding: 2rem 0 0;
+          list-style: none;
+        }
+
+        .activities__dayCard li {
+          display: flex;
+          gap: 0.75rem;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .activities__dayCard li strong {
+          min-width: 0;
+          font-size: clamp(1rem, 1.25vw, 1.375rem);
+          font-weight: 560;
+          line-height: 1.25;
+          word-break: keep-all;
+        }
+
+        .activities__level {
+          flex: 0 0 auto;
+          padding: 0.35rem 0.7rem 0.3rem;
+          border-radius: 999px;
+          font-size: 0.8125rem;
+          font-weight: 700;
+          line-height: 1;
+        }
+
+        .activities__level--기초 {
+          background: var(--activities-soft);
+          color: var(--activities-ink);
+        }
+
+        .activities__level--심화 {
+          background: var(--activities-dark);
+          color: var(--activities-dark-text);
         }
 
         @media (max-width: 68.75rem) {
@@ -576,7 +731,7 @@ export function Activities() {
           }
 
           .activities__catalog {
-            grid-template-columns: 20rem minmax(0, 1fr);
+            grid-template-columns: 16rem minmax(0, 1fr);
             gap: 2rem;
           }
 
@@ -598,11 +753,15 @@ export function Activities() {
           }
 
           .activities__curriculum li {
-            grid-template-columns: 4.5rem minmax(0, 1fr);
+            grid-template-columns: 4.5rem minmax(0, 1fr) auto;
           }
 
-          .activities__outcome {
-            display: none;
+          .activities__scheduleGrid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+
+          .activities__dayCard {
+            min-height: 21rem;
           }
         }
 
@@ -687,6 +846,30 @@ export function Activities() {
             min-height: 9.5rem;
             padding: 1.125rem;
           }
+
+          .activities__schedule {
+            margin-top: 5rem;
+            padding-top: 3.5rem;
+          }
+
+          .activities__scheduleHeader h3 {
+            font-size: clamp(2.25rem, 10vw, 3.25rem);
+          }
+
+          .activities__scheduleGrid {
+            grid-template-columns: none;
+            grid-auto-columns: minmax(15rem, 82vw);
+            grid-auto-flow: column;
+            overflow-x: auto;
+            padding-bottom: 0.75rem;
+            scroll-snap-type: x proximity;
+            scrollbar-width: thin;
+          }
+
+          .activities__dayCard {
+            min-height: 20rem;
+            scroll-snap-align: start;
+          }
         }
 
         @media (max-width: 28.75rem) {
@@ -709,6 +892,10 @@ export function Activities() {
           .activities__curriculum li {
             grid-template-columns: 4.25rem minmax(0, 1fr);
             min-height: 4rem;
+          }
+
+          .activities__outcome {
+            grid-column: 2;
           }
         }
 

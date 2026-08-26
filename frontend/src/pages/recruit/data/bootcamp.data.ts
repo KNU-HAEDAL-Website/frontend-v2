@@ -4,10 +4,13 @@ export interface CurriculumItem {
   readonly outcome: string
 }
 
+export type BootcampDay = '월' | '화' | '수' | '목' | '금'
+
 export interface Bootcamp {
   readonly slug: string
   readonly name: string
   readonly level: '기초' | '심화'
+  readonly day: readonly BootcampDay[]
   readonly headline: string
   readonly sampleLabel: string
   readonly sample: string
@@ -19,73 +22,53 @@ export const bootcamps: readonly Bootcamp[] = [
     slug: 'python',
     name: 'Python',
     level: '기초',
-    headline: '처음이어도, 직접 움직이는 코드를 만듭니다.',
+    day: ['화', '목'],
+    headline: 'Life is short, you need Python',
     sampleLabel: 'PYTHON',
     sample: `def grow(together=True):
     if together:
         return "farther, faster"
-
-print(grow())`,
+    print(grow())`,
     curriculum: [
       {
-        period: '01—02',
-        subject: '변수, 조건문, 반복문',
-        outcome: '코드와 친해지기',
+        period: '1차시',
+        subject: '개요, 입출력, 변수와 연산자, 자료형',
+        outcome: '교육운영진: 이동근',
       },
       {
-        period: '03—04',
-        subject: '함수와 자료구조',
-        outcome: '생각을 코드로 나누기',
+        period: '2차시',
+        subject: '조건문, 반복문 / 실습',
+        outcome: '교육운영진: 이동근',
       },
       {
-        period: '05—06',
-        subject: '파일과 데이터 다루기',
-        outcome: '데이터 읽고 정리하기',
+        period: '3차시',
+        subject: '함수, 리스트',
+        outcome: '교육운영진: 이동근',
       },
       {
-        period: '07—08',
-        subject: 'API와 간단한 자동화',
-        outcome: '반복 작업 줄이기',
+        period: '4차시',
+        subject: '딕셔너리, 튜플, 집합',
+        outcome: '교육운영진: 이동근',
       },
       {
-        period: '09—10',
-        subject: '미니 프로젝트 설계',
-        outcome: '아이디어 구체화하기',
+        period: '5차시',
+        subject: '예외처리',
+        outcome: '교육운영진: 곽상원',
       },
       {
-        period: '11—12',
-        subject: '프로젝트 완성 및 데모',
-        outcome: '결과를 공유하기',
+        period: '6차시',
+        subject: 'OOP와 클래스 - 1',
+        outcome: '교육운영진: 곽상원',
       },
       {
-        period: '01—02',
-        subject: '변수, 조건문, 반복문',
-        outcome: '코드와 친해지기',
+        period: '7차시',
+        subject: 'OOP와 클래스 - 2',
+        outcome: '교육운영진: 곽상원',
       },
       {
-        period: '03—04',
-        subject: '함수와 자료구조',
-        outcome: '생각을 코드로 나누기',
-      },
-      {
-        period: '05—06',
-        subject: '파일과 데이터 다루기',
-        outcome: '데이터 읽고 정리하기',
-      },
-      {
-        period: '07—08',
-        subject: 'API와 간단한 자동화',
-        outcome: '반복 작업 줄이기',
-      },
-      {
-        period: '09—10',
-        subject: '미니 프로젝트 설계',
-        outcome: '아이디어 구체화하기',
-      },
-      {
-        period: '11—12',
-        subject: '프로젝트 완성 및 데모',
-        outcome: '결과를 공유하기',
+        period: '8차시',
+        subject: '입출력, 형변환, 데이터타입, 제어문 복습',
+        outcome: '교육운영진: 곽상원',
       },
     ],
   },
@@ -93,7 +76,8 @@ print(grow())`,
     slug: 'c',
     name: 'C',
     level: '기초',
-    headline: '컴퓨터가 코드를 이해하는 방식을 배웁니다.',
+    day: ['월', '수'],
+    headline: '프로그래밍 언어의 근본. C Language',
     sampleLabel: 'C',
     sample: `#include <stdio.h>
 
@@ -103,30 +87,44 @@ int main(void) {
 }`,
     curriculum: [
       {
-        period: '01—02',
-        subject: '컴파일과 기본 문법',
-        outcome: '첫 프로그램 실행하기',
+        period: '1차시',
+        subject: '개요, 연산자, 자료형, 입출력',
+        outcome: '교육운영진: 권종성',
       },
       {
-        period: '03—04',
-        subject: '조건문과 반복문',
-        outcome: '실행 흐름 제어하기',
+        period: '2차시',
+        subject: '반복문, 조건문, 함수',
+        outcome: '교육운영진: 권종성',
       },
       {
-        period: '05—06',
-        subject: '배열과 문자열',
-        outcome: '연속된 데이터 다루기',
-      },
-      { period: '07—08', subject: '함수와 포인터', outcome: '메모리 이해하기' },
-      {
-        period: '09—10',
-        subject: '구조체와 동적 메모리',
-        outcome: '데이터 구조 설계하기',
+        period: '3차시',
+        subject: '배열, 포인터',
+        outcome: '교육운영진: 권종성',
       },
       {
-        period: '11—12',
-        subject: '콘솔 프로젝트 완성',
-        outcome: '프로그램 시연하기',
+        period: '4차시',
+        subject: '다차원 배열, 이중포인터',
+        outcome: '교육운영진: 강현서',
+      },
+      {
+        period: '5차시',
+        subject: '포인터 복습, 구조체',
+        outcome: '교육운영진: 강현서',
+      },
+      {
+        period: '6차시',
+        subject: '파일 입출력, 동적할당',
+        outcome: '교육운영진: 강현서',
+      },
+      {
+        period: '7차시',
+        subject: 'TODO 리스트',
+        outcome: '교육운영진: 권종성',
+      },
+      {
+        period: '8차시',
+        subject: '은행 계좌 시스템',
+        outcome: '교육운영진: 강현서',
       },
     ],
   },
@@ -134,7 +132,8 @@ int main(void) {
     slug: 'web',
     name: 'Web Frontend',
     level: '기초',
-    headline: '아이디어를 누구나 만질 수 있는 화면으로 만듭니다.',
+    day: ['화', '목'],
+    headline: 'html/css/javascript',
     sampleLabel: 'JAVASCRIPT',
     sample: `function Hello() {
   return (
@@ -145,42 +144,63 @@ int main(void) {
 }`,
     curriculum: [
       {
-        period: '01—02',
-        subject: 'HTML과 시맨틱 웹',
-        outcome: '화면의 뼈대 만들기',
+        period: '1차시',
+        subject: 'HTML, CSS, JS 개요, HTML 기본 구조',
+        outcome: '교육운영진: 정한희',
       },
       {
-        period: '03—04',
-        subject: 'CSS 레이아웃과 반응형',
-        outcome: '어디서나 잘 보이게 하기',
+        period: '2차시',
+        subject: 'Figma 실습',
+        outcome: '교육운영진: 정한희',
       },
       {
-        period: '05—06',
-        subject: 'JavaScript 핵심 문법',
-        outcome: '화면에 동작 더하기',
+        period: '2차시 추가 또는 숙제',
+        subject: '자기소개 페이지 만들기',
+        outcome: '',
       },
       {
-        period: '07—08',
-        subject: 'React 컴포넌트와 상태',
-        outcome: 'UI를 구조화하기',
+        period: '3차시',
+        subject: 'HTML',
+        outcome: '교육운영진: 양세훈',
       },
       {
-        period: '09—10',
-        subject: 'API 연결과 팀 개발',
-        outcome: '데이터와 화면 연결하기',
+        period: '4차시',
+        subject: 'CSS',
+        outcome: '교육운영진: 양세훈',
       },
       {
-        period: '11—12',
-        subject: '웹 서비스 배포 및 데모',
-        outcome: '서비스 공개하기',
+        period: '5차시',
+        subject: 'JS 기본 1',
+        outcome: '교육운영진: 정한희',
+      },
+      {
+        period: '6차시',
+        subject: 'JS 기본 2',
+        outcome: '교육운영진: 정한희',
+      },
+      {
+        period: '7차시',
+        subject: '비동기',
+        outcome: '교육운영진: 양세훈',
+      },
+      {
+        period: '7차시 추가 또는 숙제',
+        subject: 'fetch 함수로 API 호출하기',
+        outcome: '',
+      },
+      {
+        period: '8차시',
+        subject: '자기소개 페이지 배포(Git 활용)',
+        outcome: '교육운영진: 양세훈',
       },
     ],
   },
   {
     slug: 'spring',
-    name: 'Spring',
+    name: 'Spring Boot',
     level: '심화',
-    headline: '서비스의 보이지 않는 중심을 설계합니다.',
+    day: ['월', '수'],
+    headline: 'Write Once, Run Anywhere (Java)',
     sampleLabel: 'JAVA',
     sample: `@GetMapping("/members/{id}")
 public Member find(@PathVariable Long id) {
@@ -188,163 +208,231 @@ public Member find(@PathVariable Long id) {
 }`,
     curriculum: [
       {
-        period: '01—02',
-        subject: 'Java 객체지향 복습',
-        outcome: '역할과 책임 나누기',
+        period: '1차시',
+        subject: '환경 설정, 스프링 프로젝트 생성',
+        outcome: '교육운영진: 이영빈',
       },
       {
-        period: '03—04',
-        subject: 'Spring Boot와 HTTP',
-        outcome: '요청과 응답 이해하기',
+        period: '2차시',
+        subject: 'ERD, API, 자바 문법, Web 개념',
+        outcome: '교육운영진: 이영빈',
       },
       {
-        period: '05—06',
-        subject: 'REST API 설계',
-        outcome: '일관된 API 만들기',
+        period: '3차시',
+        subject: '폴더 구조, User(Auth 제외) CRUD, DTO 개념, 예외 처리 핸들러',
+        outcome: '교육운영진: 이영빈',
       },
       {
-        period: '07—08',
-        subject: 'JPA와 데이터베이스',
-        outcome: '데이터 저장하기',
+        period: '4차시',
+        subject: '컨테이너, Bean 개념, DI',
+        outcome: '교육운영진: 이영빈',
       },
       {
-        period: '09—10',
-        subject: '인증과 예외 처리',
-        outcome: '안전한 서비스 만들기',
+        period: '5차시',
+        subject: '로그인(세션, HttpServlet)',
+        outcome: '교육운영진: 이영빈',
       },
       {
-        period: '11—12',
-        subject: '백엔드 서비스 배포',
-        outcome: '서버 운영 경험하기',
+        period: '6차시',
+        subject: '이미지, 포스트',
+        outcome: '교육운영진: 이영빈',
+      },
+      {
+        period: '7차시',
+        subject: 'Like, Follow',
+        outcome: '교육운영진: 이영빈',
+      },
+      {
+        period: '8차시',
+        subject: '해커톤 프로젝트 기획 및 백엔드 개발자의 역할',
+        outcome: '교육운영진: 이영빈',
       },
     ],
   },
   {
-    slug: 'ai',
-    name: 'AI',
-    level: '심화',
-    headline: '데이터 속 패턴을 찾아 쓸모 있는 모델로 연결합니다.',
-    sampleLabel: 'PYTHON',
-    sample: `model.fit(train_x, train_y)
-score = model.evaluate(test_x, test_y)
+    slug: 'vibe-coding',
+    name: 'Vibe Coding',
+    level: '기초',
+    day: ['월', '수'],
+    headline: 'The hottest new programming language is English.',
+    sampleLabel: 'PROMPT',
+    sample: `const prompt = \`
+목표: 동아리 모집 페이지 만들기
 
-print(f"accuracy: {score:.2%}")`,
+요구사항:
+- React와 TypeScript 사용
+- 모바일 반응형 UI
+- 지원 버튼 추가
+\`;`,
     curriculum: [
       {
-        period: '01—02',
-        subject: 'NumPy와 데이터 다루기',
-        outcome: '데이터 읽고 살피기',
+        period: '1차시',
+        subject: '바이브 코딩반 OT, 개발 환경 점검',
+        outcome: '교육운영진: 허진수',
       },
       {
-        period: '03—04',
-        subject: '시각화와 전처리',
-        outcome: '데이터를 설명하기',
+        period: '2차시',
+        subject: 'Markdown 언어에 대한 이해와 실습',
+        outcome: '교육운영진: 허진수',
       },
       {
-        period: '05—06',
-        subject: '머신러닝의 기본 원리',
-        outcome: '학습 과정 이해하기',
+        period: '3차시',
+        subject: '프롬프트와 컨텍스트, 하네스·루프 엔지니어링의 이해',
+        outcome: '교육운영진: 허진수',
       },
       {
-        period: '07—08',
-        subject: '모델 학습과 평가',
-        outcome: '성능 비교하기',
+        period: '4차시',
+        subject: 'LLM 개요, 프롬프트 보안, LLM Agent의 이해',
+        outcome: '교육운영진: 허진수',
       },
       {
-        period: '09—10',
-        subject: '프로젝트 실험과 개선',
-        outcome: '가설 검증하기',
+        period: '5차시',
+        subject: 'RAG 기초 및 실습, LangChain 기초 및 실습',
+        outcome: '교육운영진: 허진수',
       },
       {
-        period: '11—12',
-        subject: '결과 공유 및 데모',
-        outcome: '인사이트 전달하기',
+        period: '6차시',
+        subject: 'Skill과 MCP에 대한 이해와 실습',
+        outcome: '교육운영진: 허진수',
+      },
+      {
+        period: '7차시',
+        subject:
+          '클라우드 플랫폼(GCP, AWS), 프론트엔드·백엔드 배포 방법, Antigravity 사용법 등',
+        outcome: '교육운영진: 허진수',
+      },
+      {
+        period: '8차시',
+        subject: '미니 프로젝트',
+        outcome: '교육운영진: 허진수',
       },
     ],
   },
   {
     slug: 'flutter',
-    name: 'flutter',
+    name: 'Flutter',
     level: '심화',
-    headline: '서비스의 보이지 않는 중심을 설계합니다.',
-    sampleLabel: 'JAVA',
-    sample: `@GetMapping("/members/{id}")
-public Member find(@PathVariable Long id) {
-    return memberService.findById(id);
-}`,
+    day: ['화', '목'],
+    headline: 'In Flutter, everything is a widget',
+    sampleLabel: 'DART',
+    sample: `import 'package:flutter/material.dart';
+
+void main() => runApp(
+  const MaterialApp(
+    home: Scaffold(
+      body: Center(child: Text('Hello, Haedal!')),
+    ),
+  ),
+);`,
     curriculum: [
       {
-        period: '01—02',
-        subject: 'Java 객체지향 복습',
-        outcome: '역할과 책임 나누기',
+        period: '1차시',
+        subject: '플러터란?',
+        outcome: '교육운영진: 배서진',
       },
       {
-        period: '03—04',
-        subject: 'Spring Boot와 HTTP',
-        outcome: '요청과 응답 이해하기',
+        period: '2차시',
+        subject: 'Dart 소개',
+        outcome: '교육운영진: 배서진',
       },
       {
-        period: '05—06',
-        subject: 'REST API 설계',
-        outcome: '일관된 API 만들기',
+        period: '3차시',
+        subject: '위젯과 구조 이해',
+        outcome: '교육운영진: 배서진',
       },
       {
-        period: '07—08',
-        subject: 'JPA와 데이터베이스',
-        outcome: '데이터 저장하기',
+        period: '4차시',
+        subject: 'StatefulWidget 심화와 Interactive Widgets',
+        outcome: '교육운영진: 배서진',
       },
       {
-        period: '09—10',
-        subject: '인증과 예외 처리',
-        outcome: '안전한 서비스 만들기',
+        period: '5차시',
+        subject: 'Firebase란?',
+        outcome: '교육운영진: 홍지유',
       },
       {
-        period: '11—12',
-        subject: '백엔드 서비스 배포',
-        outcome: '서버 운영 경험하기',
+        period: '6차시',
+        subject: 'Flutter 앱에 AI 연동하기',
+        outcome: '교육운영진: 홍지유',
+      },
+      {
+        period: '7차시',
+        subject: '종합 프로젝트',
+        outcome: '교육운영진: 홍지유',
+      },
+      {
+        period: '8차시',
+        subject: '소스트리를 활용한 Git 협업',
+        outcome: '교육운영진: 홍지유',
       },
     ],
   },
   {
     slug: 'algorithm',
-    name: 'algorithm',
+    name: 'Algorithm',
     level: '심화',
-    headline: '서비스의 보이지 않는 중심을 설계합니다.',
-    sampleLabel: 'JAVA',
-    sample: `@GetMapping("/members/{id}")
-public Member find(@PathVariable Long id) {
-    return memberService.findById(id);
+    day: ['화', '목'],
+    headline: '문제를 효율적으로 해결하는 사고력',
+    sampleLabel: 'C++',
+    sample: `#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<vector<int>> graph = {{1, 2}, {0, 3}, {0}, {1}};
+vector<bool> visited(4);
+
+void dfs(int node) {
+    visited[node] = true;
+    cout << node << ' ';
+
+    for (int next : graph[node]) {
+        if (!visited[next]) dfs(next);
+    }
+}
+
+int main() {
+    dfs(0);
 }`,
     curriculum: [
       {
-        period: '01—02',
-        subject: 'Java 객체지향 복습',
-        outcome: '역할과 책임 나누기',
+        period: '1차시',
+        subject: '시간 복잡도, 공간 복잡도',
+        outcome: '교육운영진: 이태헌',
       },
       {
-        period: '03—04',
-        subject: 'Spring Boot와 HTTP',
-        outcome: '요청과 응답 이해하기',
+        period: '2차시',
+        subject: '배열 조작',
+        outcome: '교육운영진: 이태헌',
       },
       {
-        period: '05—06',
-        subject: 'REST API 설계',
-        outcome: '일관된 API 만들기',
+        period: '3차시',
+        subject: '큐, 스택, 덱',
+        outcome: '교육운영진: 이태헌',
       },
       {
-        period: '07—08',
-        subject: 'JPA와 데이터베이스',
-        outcome: '데이터 저장하기',
+        period: '4차시',
+        subject: 'BFS, DFS',
+        outcome: '교육운영진: 이태헌',
       },
       {
-        period: '09—10',
-        subject: '인증과 예외 처리',
-        outcome: '안전한 서비스 만들기',
+        period: '5차시',
+        subject: '재귀, 백트래킹',
+        outcome: '교육운영진: 이태헌',
       },
       {
-        period: '11—12',
-        subject: '백엔드 서비스 배포',
-        outcome: '서버 운영 경험하기',
+        period: '6차시',
+        subject: 'DP',
+        outcome: '교육운영진: 이태헌',
+      },
+      {
+        period: '7차시',
+        subject: '해시',
+        outcome: '교육운영진: 이태헌',
+      },
+      {
+        period: '8차시',
+        subject: '힙',
+        outcome: '교육운영진: 이태헌',
       },
     ],
   },

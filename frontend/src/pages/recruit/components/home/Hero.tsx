@@ -52,8 +52,8 @@ export function Hero() {
           padding: clamp(2.5rem, 5vh, 4rem) clamp(1rem, 1.5vw, 2rem)
             clamp(1.5rem, 4vh, 3rem);
           overflow: hidden;
-          background: #ffffff;
-          color: #000000;
+          background: #03045e;
+          color: #caf0f8;
           font-family: Arial, Helvetica, sans-serif;
         }
 
@@ -91,12 +91,12 @@ export function Hero() {
         }
 
         .hero__titleLine--muted {
-          color: #737270;
+          color: #00b4d8;
         }
 
         .hero__description {
           margin: 0.75rem 0 0;
-          color: #858482;
+          color: #90e0ef;
           font-family: inherit;
           font-size: clamp(1rem, 0.9rem + 0.2vw, 1.25rem);
           font-weight: 400;
@@ -115,7 +115,7 @@ export function Hero() {
           height: 18px;
           overflow: visible;
           fill: none;
-          stroke: #737270;
+          stroke: #0077b6;
           stroke-width: 1.8;
           stroke-linecap: round;
           stroke-linejoin: round;
@@ -128,7 +128,7 @@ export function Hero() {
 
         .hero__trailText {
           margin: 0;
-          color: #858482;
+          color: #90e0ef;
           font-size: clamp(1.125rem, 1.25vw, 1.5rem);
           font-weight: 400;
           line-height: 1;

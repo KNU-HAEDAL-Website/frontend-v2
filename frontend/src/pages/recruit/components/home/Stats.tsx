@@ -25,14 +25,12 @@ export function Stats() {
 
               <dd
                 className="stats__value"
-                aria-label={`${stat.label} ${stat.value.toLocaleString('ko-KR')}${stat.unit}`}
+                aria-label={`${stat.label} ${stat.value}${stat.unit}`}
               >
                 <span className="stats__marker" aria-hidden="true">
                   <span />
                 </span>
-                <span aria-hidden="true">
-                  {stat.value.toLocaleString('ko-KR')}
-                </span>
+                <span aria-hidden="true">{stat.value}</span>
                 <span className="stats__unit" aria-hidden="true">
                   {stat.unit}
                 </span>
