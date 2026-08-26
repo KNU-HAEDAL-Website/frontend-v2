@@ -98,9 +98,9 @@ export const RecruitProcess = () => {
 }
 
 const RECRUIT_PROCESS = [
-  { title: '서류접수', detail: '02.25.(수) ~ 03.04.(수)' },
-  { title: '서류 발표', detail: '03.05.(목)' },
-  { title: '오프라인 면접', detail: '03.06.(금) ~ 03.09.(월)' },
-  { title: '최종 발표', detail: '03.11.(수) ~ 03.12.(목)' },
-  { title: '신규 부원 OT', detail: '03.13.(금)' },
+  { title: '서류접수', detail: '08.27 ~ 09.03' },
+  { title: '서류 발표', detail: '09.04' },
+  { title: '오프라인 면접', detail: '09.05 ~ 09.08' },
+  { title: '최종 발표', detail: '09.10' },
+  { title: '신규 부원 OT', detail: '09.11' },
 ]
