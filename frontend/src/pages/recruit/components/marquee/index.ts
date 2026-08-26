@@ -1,1 +1,0 @@
-export { RecruitMarquee } from './Marquee'

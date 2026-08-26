@@ -1,1 +1,0 @@
-export { BootcampAccordionCard } from './AccordionCard'
